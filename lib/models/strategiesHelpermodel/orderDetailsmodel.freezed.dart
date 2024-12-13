@@ -20,11 +20,11 @@ OrderDetailsModel _$OrderDetailsModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$OrderDetailsModel {
-  String get orderType => throw _privateConstructorUsedError;
-  String get symbol => throw _privateConstructorUsedError;
-  double get volume => throw _privateConstructorUsedError;
-  double get stopLoss => throw _privateConstructorUsedError;
-  double get takeProfit => throw _privateConstructorUsedError;
+  String? get orderType => throw _privateConstructorUsedError;
+  String? get symbol => throw _privateConstructorUsedError;
+  int? get volume => throw _privateConstructorUsedError;
+  int? get stopLoss => throw _privateConstructorUsedError;
+  int? get takeProfit => throw _privateConstructorUsedError;
 
   /// Serializes this OrderDetailsModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,11 +43,11 @@ abstract class $OrderDetailsModelCopyWith<$Res> {
       _$OrderDetailsModelCopyWithImpl<$Res, OrderDetailsModel>;
   @useResult
   $Res call(
-      {String orderType,
-      String symbol,
-      double volume,
-      double stopLoss,
-      double takeProfit});
+      {String? orderType,
+      String? symbol,
+      int? volume,
+      int? stopLoss,
+      int? takeProfit});
 }
 
 /// @nodoc
@@ -65,33 +65,33 @@ class _$OrderDetailsModelCopyWithImpl<$Res, $Val extends OrderDetailsModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderType = null,
-    Object? symbol = null,
-    Object? volume = null,
-    Object? stopLoss = null,
-    Object? takeProfit = null,
+    Object? orderType = freezed,
+    Object? symbol = freezed,
+    Object? volume = freezed,
+    Object? stopLoss = freezed,
+    Object? takeProfit = freezed,
   }) {
     return _then(_value.copyWith(
-      orderType: null == orderType
+      orderType: freezed == orderType
           ? _value.orderType
           : orderType // ignore: cast_nullable_to_non_nullable
-              as String,
-      symbol: null == symbol
+              as String?,
+      symbol: freezed == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
-              as String,
-      volume: null == volume
+              as String?,
+      volume: freezed == volume
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
-              as double,
-      stopLoss: null == stopLoss
+              as int?,
+      stopLoss: freezed == stopLoss
           ? _value.stopLoss
           : stopLoss // ignore: cast_nullable_to_non_nullable
-              as double,
-      takeProfit: null == takeProfit
+              as int?,
+      takeProfit: freezed == takeProfit
           ? _value.takeProfit
           : takeProfit // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int?,
     ) as $Val);
   }
 }
@@ -105,11 +105,11 @@ abstract class _$$OrderDetailsModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String orderType,
-      String symbol,
-      double volume,
-      double stopLoss,
-      double takeProfit});
+      {String? orderType,
+      String? symbol,
+      int? volume,
+      int? stopLoss,
+      int? takeProfit});
 }
 
 /// @nodoc
@@ -125,33 +125,33 @@ class __$$OrderDetailsModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderType = null,
-    Object? symbol = null,
-    Object? volume = null,
-    Object? stopLoss = null,
-    Object? takeProfit = null,
+    Object? orderType = freezed,
+    Object? symbol = freezed,
+    Object? volume = freezed,
+    Object? stopLoss = freezed,
+    Object? takeProfit = freezed,
   }) {
     return _then(_$OrderDetailsModelImpl(
-      orderType: null == orderType
+      orderType: freezed == orderType
           ? _value.orderType
           : orderType // ignore: cast_nullable_to_non_nullable
-              as String,
-      symbol: null == symbol
+              as String?,
+      symbol: freezed == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
-              as String,
-      volume: null == volume
+              as String?,
+      volume: freezed == volume
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
-              as double,
-      stopLoss: null == stopLoss
+              as int?,
+      stopLoss: freezed == stopLoss
           ? _value.stopLoss
           : stopLoss // ignore: cast_nullable_to_non_nullable
-              as double,
-      takeProfit: null == takeProfit
+              as int?,
+      takeProfit: freezed == takeProfit
           ? _value.takeProfit
           : takeProfit // ignore: cast_nullable_to_non_nullable
-              as double,
+              as int?,
     ));
   }
 }
@@ -170,15 +170,15 @@ class _$OrderDetailsModelImpl implements _OrderDetailsModel {
       _$$OrderDetailsModelImplFromJson(json);
 
   @override
-  final String orderType;
+  final String? orderType;
   @override
-  final String symbol;
+  final String? symbol;
   @override
-  final double volume;
+  final int? volume;
   @override
-  final double stopLoss;
+  final int? stopLoss;
   @override
-  final double takeProfit;
+  final int? takeProfit;
 
   @override
   String toString() {
@@ -224,25 +224,25 @@ class _$OrderDetailsModelImpl implements _OrderDetailsModel {
 
 abstract class _OrderDetailsModel implements OrderDetailsModel {
   factory _OrderDetailsModel(
-      {required final String orderType,
-      required final String symbol,
-      required final double volume,
-      required final double stopLoss,
-      required final double takeProfit}) = _$OrderDetailsModelImpl;
+      {required final String? orderType,
+      required final String? symbol,
+      required final int? volume,
+      required final int? stopLoss,
+      required final int? takeProfit}) = _$OrderDetailsModelImpl;
 
   factory _OrderDetailsModel.fromJson(Map<String, dynamic> json) =
       _$OrderDetailsModelImpl.fromJson;
 
   @override
-  String get orderType;
+  String? get orderType;
   @override
-  String get symbol;
+  String? get symbol;
   @override
-  double get volume;
+  int? get volume;
   @override
-  double get stopLoss;
+  int? get stopLoss;
   @override
-  double get takeProfit;
+  int? get takeProfit;
 
   /// Create a copy of OrderDetailsModel
   /// with the given fields replaced by the non-null parameter values.

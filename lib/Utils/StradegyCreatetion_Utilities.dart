@@ -1,71 +1,181 @@
+import 'package:flutter/material.dart';
+import 'package:practice/config/appUrls.dart';
+import 'package:practice/models/strategiesHelpermodel/exitRule.dart';
+import 'package:practice/models/strategiesHelpermodel/indicatormodel.dart';
+import 'package:practice/models/strategiesHelpermodel/orderDetailsmodel.dart';
+import 'package:practice/models/strategiesHelpermodel/entryRule.dart';
+import 'package:practice/models/strategymodel/strategies_model.dart';
+import 'package:practice/services/ApiServices.dart';
+import 'package:practice/services/networks/networkApi_services.dart';
+import 'package:uuid/uuid.dart';
 
-import 'package:flutter/cupertino.dart';
-
+const uuid = Uuid();
 mixin strategyServices {
 
-  static String ? selectedIndicator ;
-  static String ? selectedCondition  ;
-  static String ? selectedIndicator2 ;
+  static final services = ApiServices();
+  static String ? EntrySelectedIndicator ;
+  static String ? EntrySelectedIndicator2 ;
+  static String ? EntrySelectedCondition  ;
+  static String ? ExitSelectedIndicator ;
+  static String ? ExitSelectedIndicator2 ;
+  static String ? ExitSelectedCondition  ;
   static String ? selectedTimeframe;
+  static String ? EntryselectedAction;
+  static String ? ExitelectedAction;
 
-   static final qtyController = TextEditingController();
+  static void resetStrings () {
+    EntrySelectedIndicator  = null;
+    EntrySelectedCondition  = null;
+    ExitSelectedIndicator  = null;
+    ExitSelectedIndicator2  = null;
+    EntrySelectedIndicator2  = null;
+    selectedTimeframe  = null;
+    EntryselectedAction  = null;
+    ExitelectedAction  = null;
 
-  static List<String> indicators = ["SMA" ,"RSI" , "MACD" , "ADX"  , "ADX"];
+  }
 
-  static Map<String , List<String>> indicatorParmeter = {
-    "SMA"  : ['period'],
-    "RSI" : ['Period', 'Overbought Level', 'Oversold Level'],
-    "MACD" :  ['Fast EMA Period', 'Slow EMA Period', 'Signal Line Period'],
-    // "BollingetBand" : ['Period', 'Standard Deviation'],
-    "ADX" : ['Period'],
-    "HMA": ['Period']
+
+   static final qtyController = TextEditingController(text: "1");
+
+  static List<String> indicators = ["SMA" ,"RSI" , "MACD" , "ADX"  , "HMA"];
+
+  static Map<String, List<String>> indicatorParameters = {
+    "SMA": ['period'],
+    "RSI": ['period', 'Overbought Level', 'Oversold Level'],
+    "MACD": ['Fast EMA Period', 'Slow EMA Period', 'Signal Line Period'],
+    "ADX": ['period'],
+    "HMA": ['period'],
   };
 
 
-  static Map<String , Map<String ,String>> defaultvaluesOfIndicators = {
 
-
-    "SMA": {'period': "14"},
-    "RSI": {'Period ': '15', 'Overbought Level': '15', 'Oversold Level': '15'},
-    "MACD": {
-      'Fast EMA Period': "78",
-      'Slow EMA Period': "14",
-      'Signal Line Period': "40"
-    },
-    // "BollingetBand": { 'Period': "78", 'Standard Deviation': "12"},
-    "ADX": {'Period': "78"},
-    "HMA": {'Period': "45"}
+  static Map<String, Map<String, dynamic>> defaultvaluesOfIndicators = {
+    "SMA": {'period': 14},
+    "RSI": {'period': 14, 'Overbought Level': 70, 'Oversold Level': 30},
+    "MACD": {'Fast EMA Period': 12, 'Slow EMA Period': 26, 'Signal Line Period': 9},
+    "ADX": {'period': 14},
+    "HMA": {'period': 14},
   };
 
-  static List<String> conditions = ["isgreaterthan", "isLsessetThan" , "isequal"];
+
+  static List<String> conditions = ["isGreaterThan", "isLessThan" , "isEqual"];
 
   static final searchControllers = TextEditingController();
   static List<String> foresPairs = [
-    "EURUSD", "USDJPY", "GBPUSD", "USDCHF", "NZDUSD",
-    "EURJPY", "GBPJPY","SOLUSD", "ADAUSD" , "XRPUSD",
-     "AUDJPY", "EURAUD", "EURCHF", "AUDNZD",
-    "NZDJPY", "GBPAUD", "GBPCAD", "EURNZD", "AUDCAD", "GBPCHF", "AUDCHF",
-    "EURCAD", "CADJPY", "GBPNZD", "CADCHF", "CHFJPY", "NZDCAD", "NZDCHF",
-    "USDHKD", "GBPZAR", "EURZAR", "USDZAR", "AUDZAR", "CADZAR", "CHFZAR",
-    "JPYZAR", "NZDZAR", "TRYZAR", "BRLZAR", "MXNZD", "MXNJPY", "MXNCHF",
-    "MXNGBP", "MXNUSD", "MXNTRY", "MXNZAR", "MXNCHF", "MXNJPY", "MXNGBP",
-    "MXNUSD"
+    "EURUSDm", "USDJPYm", "GBPUSDm", "USDCHFm", "NZDJPYm",
+    "EURJPYm", "NZDUSDm", "AUDJPYm", "AUDUSDm"
+    // "AUDUSDm"
+    //  "AUDJPY", "EURAUD", "EURCHF", "AUDNZD",
+    // "NZDJPY", "GBPAUD", "GBPCAD", "EURNZD", "AUDCAD", "GBPCHF", "AUDCHF",
+    // "EURCAD", "CADJPY", "GBPNZD", "CADCHF", "CHFJPY", "NZDCAD", "NZDCHF",
+    // "USDHKD", "GBPZAR", "EURZAR", "USDZAR", "AUDZAR", "CADZAR", "CHFZAR",
+    // "JPYZAR", "NZDZAR", "TRYZAR", "BRLZAR", "MXNZD", "MXNJPY", "MXNCHF",
+    // "MXNGBP", "MXNUSD", "MXNTRY", "MXNZAR", "MXNCHF", "MXNJPY", "MXNGBP",
+    // "MXNUSD"
   ];
 
   static List<String>timeframes = ["1m" , "5m" , "15m"];
 
-  static Map<String , Map<String , TextEditingController>> controlersMap = {};
+  static Map<String , Map<String , TextEditingController>> controllersMap = {};
 
-  static void initailizeControlers (indicator , seltectindicator){
-    controlersMap[seltectindicator] = {};
-    indicatorParmeter[indicator]!.forEach((oneindicator){
-       controlersMap[seltectindicator]![oneindicator] = TextEditingController(
-      text: defaultvaluesOfIndicators[indicator]![oneindicator]
+  static void initializeControllers (indicator , seltectindicator){
+    controllersMap[seltectindicator] = {};
+    for (var oneindicator in indicatorParameters[indicator]!) {
+      controllersMap[seltectindicator]![oneindicator] = TextEditingController(
+      text: defaultvaluesOfIndicators[indicator]![oneindicator].toString()
       );
-    });
+    }
 
 
   }
 
 
+  // this function is help to call strategies creation function rtetur nture and false after creating
+
+  static Map<String, String>? getParameters(String key)
+  {
+    if (controllersMap.containsKey(key))
+    { Map<String, TextEditingController> innerMap = controllersMap[key]!;
+      Map<String, String> parameters = {};
+      innerMap.forEach((paramKey, controller)
+  { parameters[paramKey] = controller.text; });
+      return parameters; } return null; }
+
+  static Future<dynamic> callStrategiesfunction(String symbol , functionName , String strategyName)async{
+
+
+    // initailazi all nescesary file to create strategies in this contirller
+    final Entrymodel1 =IndicatorModel.create(type: EntrySelectedIndicator ?? "", parameters: getParameters('EntrySelectedIndicator') ?? {});// {"period" : 30});
+    final Entrymodel2 = IndicatorModel.create(type: EntrySelectedIndicator2?? "", parameters: getParameters('EntrySelectedIndicator2') ?? {});
+    // initailazi all nescesary file to create strategies in this contirller
+    final Exitmodel1 =IndicatorModel.create(type: ExitSelectedIndicator ?? "", parameters: getParameters('ExitSelectedIndicator') ?? {});// {"period" : 30});
+    final Exitmodel2 = IndicatorModel.create(type: ExitSelectedIndicator2?? "", parameters: getParameters('ExitSelectedIndicator2') ?? {});
+
+    final entryRule =  EntryRuleModel(indicatorId: Entrymodel1.indicatorId, condition: EntrySelectedCondition ?? "", value: Entrymodel1.indicatorId, action: EntryselectedAction ?? "");
+    final exitRule =  ExitRuleModel(indicatorId: Entrymodel1.indicatorId, condition: ExitSelectedCondition ?? "", value: Exitmodel2.indicatorId, action: ExitelectedAction ?? "");
+
+    final  orderdetailsmodel =  OrderDetailsModel(orderType: "vishal", symbol:symbol , volume: int.parse(qtyController.text), stopLoss: 2, takeProfit: 2);
+
+
+    final model = StrategiesModel
+      (
+      userId: "674f044539c250120a20854e",
+      strategyName:  strategyName?? "new Strategy",
+      timeframe: selectedTimeframe ?? '1m',
+      description: "This iS testing",
+      deployed: true,
+      indicators: [Entrymodel1 , Entrymodel2 , Exitmodel1 , Exitmodel2],
+      entryRuleModel: [entryRule],
+      exitRuleModel: [exitRule],
+      orderDetails: orderdetailsmodel,
+
+    );
+    final data = {
+      "symbol" : orderdetailsmodel.symbol ?? "EURUSD",
+       "strategy" : model,
+      "timeframe" : "m1",
+       "fromDate" : "2024-12-10",
+      "toDate" : "2024-12-11"
+    };
+
+    controllersMap.clear();
+    resetStrings();
+
+    if(functionName == "backTest"){
+
+      var response = await services.backTestResult(data).timeout(
+        const Duration(seconds:10 ),
+        onTimeout: () => null,
+      );
+      return response ;
+    }
+
+    return await services.createStrategy(model).timeout(Duration(seconds: 10), onTimeout: ()=> false);
+
+
+  }
+
+
+
+}
+
+class CustomSnackbar {
+
+   static void show(BuildContext context , String message ,Color color) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+          bottom: MediaQuery.of(context).size.height - 200,
+          left: 10,
+          right: 10,
+        ),
+        content: Center(child: Text(message, style: const TextStyle(fontSize: 17))),
+        backgroundColor: color,
+        dismissDirection: DismissDirection.up,
+      ),
+    );
+  }
 }

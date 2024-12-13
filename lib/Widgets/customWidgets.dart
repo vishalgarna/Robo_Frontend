@@ -6,10 +6,15 @@ class customButtonWidgets extends StatelessWidget {
   double ? radius ;
   String  title;
   VoidCallback callback ;
-   customButtonWidgets({super.key ,required this.title, required this.callback ,  this.height , this.radius , this.width});
+  bool ? loading;
+  Color ? colors;
+   customButtonWidgets({super.key ,required this.title, required this.callback ,  this.height , this.radius , this.width, this.loading , this.colors});
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
@@ -17,12 +22,13 @@ class customButtonWidgets extends StatelessWidget {
         child: Container(
           height: height ?? 50,
           width: width ?? 150,
+
           decoration: BoxDecoration(
-            color: Colors.blue.shade400,
+            color: colors ?? Colors.blue.shade400,
             borderRadius: BorderRadius.circular(0)
           ),
-          child:  Center(child: Text(title , style: const TextStyle(
-            color: Colors.white,
+          child:  Center(child: loading == true ? const CircularProgressIndicator() :Text(title , style: const TextStyle(
+            color:   Colors.white,
             fontSize: 20
           ),),),
         ),
@@ -30,3 +36,7 @@ class customButtonWidgets extends StatelessWidget {
     );
   }
 }
+
+
+
+

@@ -20,9 +20,9 @@ IndicatorModel _$IndicatorModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$IndicatorModel {
-  String get name => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
-  Map<String, dynamic> get parameters => throw _privateConstructorUsedError;
+  String? get indicatorId => throw _privateConstructorUsedError;
+  String? get type => throw _privateConstructorUsedError;
+  Map<String, dynamic>? get parameters => throw _privateConstructorUsedError;
 
   /// Serializes this IndicatorModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -40,7 +40,8 @@ abstract class $IndicatorModelCopyWith<$Res> {
           IndicatorModel value, $Res Function(IndicatorModel) then) =
       _$IndicatorModelCopyWithImpl<$Res, IndicatorModel>;
   @useResult
-  $Res call({String name, String type, Map<String, dynamic> parameters});
+  $Res call(
+      {String? indicatorId, String? type, Map<String, dynamic>? parameters});
 }
 
 /// @nodoc
@@ -58,23 +59,23 @@ class _$IndicatorModelCopyWithImpl<$Res, $Val extends IndicatorModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? type = null,
-    Object? parameters = null,
+    Object? indicatorId = freezed,
+    Object? type = freezed,
+    Object? parameters = freezed,
   }) {
     return _then(_value.copyWith(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
+      indicatorId: freezed == indicatorId
+          ? _value.indicatorId
+          : indicatorId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      parameters: null == parameters
+              as String?,
+      parameters: freezed == parameters
           ? _value.parameters
           : parameters // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as Map<String, dynamic>?,
     ) as $Val);
   }
 }
@@ -87,7 +88,8 @@ abstract class _$$IndicatorModelImplCopyWith<$Res>
       __$$IndicatorModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, String type, Map<String, dynamic> parameters});
+  $Res call(
+      {String? indicatorId, String? type, Map<String, dynamic>? parameters});
 }
 
 /// @nodoc
@@ -103,23 +105,23 @@ class __$$IndicatorModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? name = null,
-    Object? type = null,
-    Object? parameters = null,
+    Object? indicatorId = freezed,
+    Object? type = freezed,
+    Object? parameters = freezed,
   }) {
     return _then(_$IndicatorModelImpl(
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
+      indicatorId: freezed == indicatorId
+          ? _value.indicatorId
+          : indicatorId // ignore: cast_nullable_to_non_nullable
+              as String?,
+      type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      parameters: null == parameters
+              as String?,
+      parameters: freezed == parameters
           ? _value._parameters
           : parameters // ignore: cast_nullable_to_non_nullable
-              as Map<String, dynamic>,
+              as Map<String, dynamic>?,
     ));
   }
 }
@@ -128,29 +130,31 @@ class __$$IndicatorModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$IndicatorModelImpl implements _IndicatorModel {
   _$IndicatorModelImpl(
-      {required this.name,
+      {required this.indicatorId,
       required this.type,
-      required final Map<String, dynamic> parameters})
+      required final Map<String, dynamic>? parameters})
       : _parameters = parameters;
 
   factory _$IndicatorModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$IndicatorModelImplFromJson(json);
 
   @override
-  final String name;
+  final String? indicatorId;
   @override
-  final String type;
-  final Map<String, dynamic> _parameters;
+  final String? type;
+  final Map<String, dynamic>? _parameters;
   @override
-  Map<String, dynamic> get parameters {
+  Map<String, dynamic>? get parameters {
+    final value = _parameters;
+    if (value == null) return null;
     if (_parameters is EqualUnmodifiableMapView) return _parameters;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_parameters);
+    return EqualUnmodifiableMapView(value);
   }
 
   @override
   String toString() {
-    return 'IndicatorModel(name: $name, type: $type, parameters: $parameters)';
+    return 'IndicatorModel(indicatorId: $indicatorId, type: $type, parameters: $parameters)';
   }
 
   @override
@@ -158,7 +162,8 @@ class _$IndicatorModelImpl implements _IndicatorModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$IndicatorModelImpl &&
-            (identical(other.name, name) || other.name == name) &&
+            (identical(other.indicatorId, indicatorId) ||
+                other.indicatorId == indicatorId) &&
             (identical(other.type, type) || other.type == type) &&
             const DeepCollectionEquality()
                 .equals(other._parameters, _parameters));
@@ -166,7 +171,7 @@ class _$IndicatorModelImpl implements _IndicatorModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, name, type,
+  int get hashCode => Object.hash(runtimeType, indicatorId, type,
       const DeepCollectionEquality().hash(_parameters));
 
   /// Create a copy of IndicatorModel
@@ -188,19 +193,19 @@ class _$IndicatorModelImpl implements _IndicatorModel {
 
 abstract class _IndicatorModel implements IndicatorModel {
   factory _IndicatorModel(
-      {required final String name,
-      required final String type,
-      required final Map<String, dynamic> parameters}) = _$IndicatorModelImpl;
+      {required final String? indicatorId,
+      required final String? type,
+      required final Map<String, dynamic>? parameters}) = _$IndicatorModelImpl;
 
   factory _IndicatorModel.fromJson(Map<String, dynamic> json) =
       _$IndicatorModelImpl.fromJson;
 
   @override
-  String get name;
+  String? get indicatorId;
   @override
-  String get type;
+  String? get type;
   @override
-  Map<String, dynamic> get parameters;
+  Map<String, dynamic>? get parameters;
 
   /// Create a copy of IndicatorModel
   /// with the given fields replaced by the non-null parameter values.

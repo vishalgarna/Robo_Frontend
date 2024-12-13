@@ -1,46 +1,60 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 class WebSocketService {
   WebSocketChannel? channel;
-  final Map<String, double> prices = {};
-  final streamController = StreamController<Map<String, double>>.broadcast();
+  Map<String, dynamic> prices = {};
+  final streamController = StreamController<Map<String, dynamic>>.broadcast();
 
-  // Stream ko expose karna
-  Stream<Map<String, double>> get stream => streamController.stream;
+  Stream<Map<String, dynamic>> get stream => streamController.stream;
 
-  Future<void> webSocketConnection(String symbol) async {
-    // Establish WebSocket connections
-    Uri url = Uri.parse("wss://marketdata.tradermade.com/feedadv");
-    channel = WebSocketChannel.connect(url);
+  Future<void> webSocketConnection() async {
+    try {
+      channel = WebSocketChannel.connect(Uri.parse("wss://marketdata.tradermade.com/feedadv"));
 
-    final request = jsonEncode({
-      "userKey": "wsNo66yCxOL1mRXR3egQ",
-      "symbol": "ETHUSD" // Only one symbol
-    });
+      final request = jsonEncode({
+        "userKey": "wsVIl_0HsKk9NhXqKJgA",
+        "symbol": "EURUSD,USDJPY,GBPUSD,USDCHF,NZDJPY,EURJPY,AUDJPY,NZDUSD,ETHUSD"
+      });
 
-    channel?.sink.add(request);
+      channel?.sink.add(request);
+    } on SocketException {
+      print("SocketException: Unable to connect to the WebSocket.");
+    } catch (e) {
+      print("Connection Error: $e");
+    }
+
     channel?.stream.listen((message) {
-      final data = jsonDecode(message);
+      // Log the raw message for debugging
+      // print("Raw message: $message");
 
-      // Specific symbol ka price update karna
-      prices[data['symbol']] = data['mid'];
-      print(prices);
-      streamController.sink.add(Map<String, double>.from(prices)); // Updated map ko stream karna
+      try {
+        // Decode the message
+        var data = jsonDecode(message);
+        // print("Decoded data: $data");
+
+        // Ensure data has correct structure and types
+        if (data.containsKey("symbol") && data.containsKey("mid")) {
+          prices[data["symbol"]] = data["mid"];
+          Future.delayed(Duration(seconds: 5), () => streamController.sink.add(prices));
+        } else {
+          print("Error: Invalid data format or missing keys.");
+        }
+      } catch (e) {
+        print("Error decoding data: $e");
+      }
+    }, onDone: () {
+      print("WebSocket connection closed.");
+      streamController.close();
     }, onError: (error) {
-      print('WebSocket Error: $error');
-      _reconnect(symbol); // Error handling ke liye reconnect logic
+      print("WebSocket error: $error");
+      streamController.close();
     });
   }
 
-  void _reconnect(String symbol) {
-    Future.delayed(Duration(seconds: 5), () {
-      webSocketConnection(symbol);
-    });
-  }
-
-  void disconnect() {
+  void dispose() {
     channel?.sink.close();
     streamController.close();
   }

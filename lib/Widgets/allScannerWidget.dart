@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'customButtonWidgets.dart';
+import 'customWidgets.dart';
 
 class allScannersWidget extends StatelessWidget {
   const allScannersWidget({super.key});
@@ -15,7 +15,6 @@ class allScannersWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             customButtonWidgets(title: 'create scanner',width: 350, callback: () {
-              print('object');
             },),
             const SizedBox(
               height: 20,

@@ -9,28 +9,38 @@ part of 'strategies_model.dart';
 _$StrategiesModelImpl _$$StrategiesModelImplFromJson(
         Map<String, dynamic> json) =>
     _$StrategiesModelImpl(
-      userId: json['userId'] as String,
-      strategyName: json['strategyName'] as String,
-      description: json['description'] as String,
-      deployed: json['deployed'] as bool,
-      indicators: (json['indicators'] as List<dynamic>)
-          .map((e) => IndicatorModel.fromJson(e as Map<String, dynamic>))
+      id: json['id'] as String?,
+      userId: json['userId'] as String?,
+      timeframe: json['timeframe'] as String?,
+      strategyName: json['strategyName'] as String?,
+      description: json['description'] as String?,
+      deployed: json['deployed'] as bool?,
+      indicators: (json['indicators'] as List<dynamic>?)
+          ?.map((e) => IndicatorModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      rules: (json['rules'] as List<dynamic>)
-          .map((e) => RuleModel.fromJson(e as Map<String, dynamic>))
+      entryRuleModel: (json['entryRuleModel'] as List<dynamic>?)
+          ?.map((e) => EntryRuleModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      orderDetails: OrderDetailsModel.fromJson(
-          json['orderDetails'] as Map<String, dynamic>),
+      exitRuleModel: (json['exitRuleModel'] as List<dynamic>?)
+          ?.map((e) => ExitRuleModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      orderDetails: json['orderDetails'] == null
+          ? null
+          : OrderDetailsModel.fromJson(
+              json['orderDetails'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$$StrategiesModelImplToJson(
         _$StrategiesModelImpl instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'userId': instance.userId,
+      'timeframe': instance.timeframe,
       'strategyName': instance.strategyName,
       'description': instance.description,
       'deployed': instance.deployed,
       'indicators': instance.indicators,
-      'rules': instance.rules,
+      'entryRuleModel': instance.entryRuleModel,
+      'exitRuleModel': instance.exitRuleModel,
       'orderDetails': instance.orderDetails,
     };

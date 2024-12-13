@@ -1,17 +1,18 @@
 
 import 'package:flutter/material.dart';
 import 'package:practice/Utils/StradegyCreatetion_Utilities.dart';
-import 'package:practice/pages/strategyCreationPage.dart';
+import 'package:practice/views/strategyCreationPage.dart';
 
-class serachPair extends StatefulWidget {
+class SerachPairPage extends StatefulWidget {
 
-   serachPair({super.key});
+  String strategyName;
+   SerachPairPage({super.key , required this.strategyName});
 
   @override
-  State<serachPair> createState() => _serachPairState();
+  State<SerachPairPage> createState() => _SerachPairPageState();
 }
 
-class _serachPairState extends State<serachPair> {
+class _SerachPairPageState extends State<SerachPairPage> {
   List result = [];
 
   @override
@@ -19,15 +20,14 @@ class _serachPairState extends State<serachPair> {
     result = strategyServices.foresPairs;
     super.initState();
   }
-  @override
-  void dispose() {
-    strategyServices.searchControllers.dispose();
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(child: Scaffold(
+    return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -64,20 +64,21 @@ class _serachPairState extends State<serachPair> {
                    onTap: (){
                    Navigator.pushAndRemoveUntil
                      (context, MaterialPageRoute(builder:
-                       (context)=>StrategyCreationPage(pairName: result[index],)),
+                       (context)=>StrategyCreationPage(pairName: result[index], strategyName: widget.strategyName,)),
                            (Route<dynamic>routes)=>false);
                    },
                    title: Text(result[index]),
+                   trailing: const Icon(Icons.arrow_forward_ios_sharp , size: 20,),
                  );
 
               }, separatorBuilder: (BuildContext context, int index) {
-                  return Divider(height: 0,);
+                  return const Divider(height: 0,);
               },),
             ),
           ],
         ),
       ),
-    ));
+    );
   }
 
   void filterpairs (String itemName){

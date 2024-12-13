@@ -9,11 +9,11 @@ part of 'orderDetailsmodel.dart';
 _$OrderDetailsModelImpl _$$OrderDetailsModelImplFromJson(
         Map<String, dynamic> json) =>
     _$OrderDetailsModelImpl(
-      orderType: json['orderType'] as String,
-      symbol: json['symbol'] as String,
-      volume: (json['volume'] as num).toDouble(),
-      stopLoss: (json['stopLoss'] as num).toDouble(),
-      takeProfit: (json['takeProfit'] as num).toDouble(),
+      orderType: json['orderType'] as String?,
+      symbol: json['symbol'] as String?,
+      volume: (json['volume'] as num?)?.toInt(),
+      stopLoss: (json['stopLoss'] as num?)?.toInt(),
+      takeProfit: (json['takeProfit'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$OrderDetailsModelImplToJson(

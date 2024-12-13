@@ -20,13 +20,17 @@ StrategiesModel _$StrategiesModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$StrategiesModel {
-  String get userId => throw _privateConstructorUsedError;
-  String get strategyName => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  bool get deployed => throw _privateConstructorUsedError;
-  List<IndicatorModel> get indicators => throw _privateConstructorUsedError;
-  List<RuleModel> get rules => throw _privateConstructorUsedError;
-  OrderDetailsModel get orderDetails => throw _privateConstructorUsedError;
+  String? get id => throw _privateConstructorUsedError;
+  String? get userId => throw _privateConstructorUsedError;
+  String? get timeframe => throw _privateConstructorUsedError;
+  String? get strategyName => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  bool? get deployed => throw _privateConstructorUsedError;
+  List<IndicatorModel>? get indicators => throw _privateConstructorUsedError;
+  List<EntryRuleModel>? get entryRuleModel =>
+      throw _privateConstructorUsedError;
+  List<ExitRuleModel>? get exitRuleModel => throw _privateConstructorUsedError;
+  OrderDetailsModel? get orderDetails => throw _privateConstructorUsedError;
 
   /// Serializes this StrategiesModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -45,15 +49,18 @@ abstract class $StrategiesModelCopyWith<$Res> {
       _$StrategiesModelCopyWithImpl<$Res, StrategiesModel>;
   @useResult
   $Res call(
-      {String userId,
-      String strategyName,
-      String description,
-      bool deployed,
-      List<IndicatorModel> indicators,
-      List<RuleModel> rules,
-      OrderDetailsModel orderDetails});
+      {String? id,
+      String? userId,
+      String? timeframe,
+      String? strategyName,
+      String? description,
+      bool? deployed,
+      List<IndicatorModel>? indicators,
+      List<EntryRuleModel>? entryRuleModel,
+      List<ExitRuleModel>? exitRuleModel,
+      OrderDetailsModel? orderDetails});
 
-  $OrderDetailsModelCopyWith<$Res> get orderDetails;
+  $OrderDetailsModelCopyWith<$Res>? get orderDetails;
 }
 
 /// @nodoc
@@ -71,43 +78,58 @@ class _$StrategiesModelCopyWithImpl<$Res, $Val extends StrategiesModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
-    Object? strategyName = null,
-    Object? description = null,
-    Object? deployed = null,
-    Object? indicators = null,
-    Object? rules = null,
-    Object? orderDetails = null,
+    Object? id = freezed,
+    Object? userId = freezed,
+    Object? timeframe = freezed,
+    Object? strategyName = freezed,
+    Object? description = freezed,
+    Object? deployed = freezed,
+    Object? indicators = freezed,
+    Object? entryRuleModel = freezed,
+    Object? exitRuleModel = freezed,
+    Object? orderDetails = freezed,
   }) {
     return _then(_value.copyWith(
-      userId: null == userId
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      strategyName: null == strategyName
+              as String?,
+      timeframe: freezed == timeframe
+          ? _value.timeframe
+          : timeframe // ignore: cast_nullable_to_non_nullable
+              as String?,
+      strategyName: freezed == strategyName
           ? _value.strategyName
           : strategyName // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      deployed: null == deployed
+              as String?,
+      deployed: freezed == deployed
           ? _value.deployed
           : deployed // ignore: cast_nullable_to_non_nullable
-              as bool,
-      indicators: null == indicators
+              as bool?,
+      indicators: freezed == indicators
           ? _value.indicators
           : indicators // ignore: cast_nullable_to_non_nullable
-              as List<IndicatorModel>,
-      rules: null == rules
-          ? _value.rules
-          : rules // ignore: cast_nullable_to_non_nullable
-              as List<RuleModel>,
-      orderDetails: null == orderDetails
+              as List<IndicatorModel>?,
+      entryRuleModel: freezed == entryRuleModel
+          ? _value.entryRuleModel
+          : entryRuleModel // ignore: cast_nullable_to_non_nullable
+              as List<EntryRuleModel>?,
+      exitRuleModel: freezed == exitRuleModel
+          ? _value.exitRuleModel
+          : exitRuleModel // ignore: cast_nullable_to_non_nullable
+              as List<ExitRuleModel>?,
+      orderDetails: freezed == orderDetails
           ? _value.orderDetails
           : orderDetails // ignore: cast_nullable_to_non_nullable
-              as OrderDetailsModel,
+              as OrderDetailsModel?,
     ) as $Val);
   }
 
@@ -115,8 +137,12 @@ class _$StrategiesModelCopyWithImpl<$Res, $Val extends StrategiesModel>
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
-  $OrderDetailsModelCopyWith<$Res> get orderDetails {
-    return $OrderDetailsModelCopyWith<$Res>(_value.orderDetails, (value) {
+  $OrderDetailsModelCopyWith<$Res>? get orderDetails {
+    if (_value.orderDetails == null) {
+      return null;
+    }
+
+    return $OrderDetailsModelCopyWith<$Res>(_value.orderDetails!, (value) {
       return _then(_value.copyWith(orderDetails: value) as $Val);
     });
   }
@@ -131,16 +157,19 @@ abstract class _$$StrategiesModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String userId,
-      String strategyName,
-      String description,
-      bool deployed,
-      List<IndicatorModel> indicators,
-      List<RuleModel> rules,
-      OrderDetailsModel orderDetails});
+      {String? id,
+      String? userId,
+      String? timeframe,
+      String? strategyName,
+      String? description,
+      bool? deployed,
+      List<IndicatorModel>? indicators,
+      List<EntryRuleModel>? entryRuleModel,
+      List<ExitRuleModel>? exitRuleModel,
+      OrderDetailsModel? orderDetails});
 
   @override
-  $OrderDetailsModelCopyWith<$Res> get orderDetails;
+  $OrderDetailsModelCopyWith<$Res>? get orderDetails;
 }
 
 /// @nodoc
@@ -156,43 +185,58 @@ class __$$StrategiesModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? userId = null,
-    Object? strategyName = null,
-    Object? description = null,
-    Object? deployed = null,
-    Object? indicators = null,
-    Object? rules = null,
-    Object? orderDetails = null,
+    Object? id = freezed,
+    Object? userId = freezed,
+    Object? timeframe = freezed,
+    Object? strategyName = freezed,
+    Object? description = freezed,
+    Object? deployed = freezed,
+    Object? indicators = freezed,
+    Object? entryRuleModel = freezed,
+    Object? exitRuleModel = freezed,
+    Object? orderDetails = freezed,
   }) {
     return _then(_$StrategiesModelImpl(
-      userId: null == userId
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      userId: freezed == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
-              as String,
-      strategyName: null == strategyName
+              as String?,
+      timeframe: freezed == timeframe
+          ? _value.timeframe
+          : timeframe // ignore: cast_nullable_to_non_nullable
+              as String?,
+      strategyName: freezed == strategyName
           ? _value.strategyName
           : strategyName // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      deployed: null == deployed
+              as String?,
+      deployed: freezed == deployed
           ? _value.deployed
           : deployed // ignore: cast_nullable_to_non_nullable
-              as bool,
-      indicators: null == indicators
+              as bool?,
+      indicators: freezed == indicators
           ? _value._indicators
           : indicators // ignore: cast_nullable_to_non_nullable
-              as List<IndicatorModel>,
-      rules: null == rules
-          ? _value._rules
-          : rules // ignore: cast_nullable_to_non_nullable
-              as List<RuleModel>,
-      orderDetails: null == orderDetails
+              as List<IndicatorModel>?,
+      entryRuleModel: freezed == entryRuleModel
+          ? _value._entryRuleModel
+          : entryRuleModel // ignore: cast_nullable_to_non_nullable
+              as List<EntryRuleModel>?,
+      exitRuleModel: freezed == exitRuleModel
+          ? _value._exitRuleModel
+          : exitRuleModel // ignore: cast_nullable_to_non_nullable
+              as List<ExitRuleModel>?,
+      orderDetails: freezed == orderDetails
           ? _value.orderDetails
           : orderDetails // ignore: cast_nullable_to_non_nullable
-              as OrderDetailsModel,
+              as OrderDetailsModel?,
     ));
   }
 }
@@ -201,49 +245,71 @@ class __$$StrategiesModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$StrategiesModelImpl implements _StrategiesModel {
   _$StrategiesModelImpl(
-      {required this.userId,
+      {this.id,
+      required this.userId,
+      required this.timeframe,
       required this.strategyName,
       required this.description,
       required this.deployed,
-      required final List<IndicatorModel> indicators,
-      required final List<RuleModel> rules,
+      required final List<IndicatorModel>? indicators,
+      required final List<EntryRuleModel>? entryRuleModel,
+      required final List<ExitRuleModel>? exitRuleModel,
       required this.orderDetails})
       : _indicators = indicators,
-        _rules = rules;
+        _entryRuleModel = entryRuleModel,
+        _exitRuleModel = exitRuleModel;
 
   factory _$StrategiesModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$StrategiesModelImplFromJson(json);
 
   @override
-  final String userId;
+  final String? id;
   @override
-  final String strategyName;
+  final String? userId;
   @override
-  final String description;
+  final String? timeframe;
   @override
-  final bool deployed;
-  final List<IndicatorModel> _indicators;
+  final String? strategyName;
   @override
-  List<IndicatorModel> get indicators {
+  final String? description;
+  @override
+  final bool? deployed;
+  final List<IndicatorModel>? _indicators;
+  @override
+  List<IndicatorModel>? get indicators {
+    final value = _indicators;
+    if (value == null) return null;
     if (_indicators is EqualUnmodifiableListView) return _indicators;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_indicators);
+    return EqualUnmodifiableListView(value);
   }
 
-  final List<RuleModel> _rules;
+  final List<EntryRuleModel>? _entryRuleModel;
   @override
-  List<RuleModel> get rules {
-    if (_rules is EqualUnmodifiableListView) return _rules;
+  List<EntryRuleModel>? get entryRuleModel {
+    final value = _entryRuleModel;
+    if (value == null) return null;
+    if (_entryRuleModel is EqualUnmodifiableListView) return _entryRuleModel;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_rules);
+    return EqualUnmodifiableListView(value);
+  }
+
+  final List<ExitRuleModel>? _exitRuleModel;
+  @override
+  List<ExitRuleModel>? get exitRuleModel {
+    final value = _exitRuleModel;
+    if (value == null) return null;
+    if (_exitRuleModel is EqualUnmodifiableListView) return _exitRuleModel;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
   }
 
   @override
-  final OrderDetailsModel orderDetails;
+  final OrderDetailsModel? orderDetails;
 
   @override
   String toString() {
-    return 'StrategiesModel(userId: $userId, strategyName: $strategyName, description: $description, deployed: $deployed, indicators: $indicators, rules: $rules, orderDetails: $orderDetails)';
+    return 'StrategiesModel(id: $id, userId: $userId, timeframe: $timeframe, strategyName: $strategyName, description: $description, deployed: $deployed, indicators: $indicators, entryRuleModel: $entryRuleModel, exitRuleModel: $exitRuleModel, orderDetails: $orderDetails)';
   }
 
   @override
@@ -251,7 +317,10 @@ class _$StrategiesModelImpl implements _StrategiesModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StrategiesModelImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.timeframe, timeframe) ||
+                other.timeframe == timeframe) &&
             (identical(other.strategyName, strategyName) ||
                 other.strategyName == strategyName) &&
             (identical(other.description, description) ||
@@ -260,7 +329,10 @@ class _$StrategiesModelImpl implements _StrategiesModel {
                 other.deployed == deployed) &&
             const DeepCollectionEquality()
                 .equals(other._indicators, _indicators) &&
-            const DeepCollectionEquality().equals(other._rules, _rules) &&
+            const DeepCollectionEquality()
+                .equals(other._entryRuleModel, _entryRuleModel) &&
+            const DeepCollectionEquality()
+                .equals(other._exitRuleModel, _exitRuleModel) &&
             (identical(other.orderDetails, orderDetails) ||
                 other.orderDetails == orderDetails));
   }
@@ -269,12 +341,15 @@ class _$StrategiesModelImpl implements _StrategiesModel {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      id,
       userId,
+      timeframe,
       strategyName,
       description,
       deployed,
       const DeepCollectionEquality().hash(_indicators),
-      const DeepCollectionEquality().hash(_rules),
+      const DeepCollectionEquality().hash(_entryRuleModel),
+      const DeepCollectionEquality().hash(_exitRuleModel),
       orderDetails);
 
   /// Create a copy of StrategiesModel
@@ -296,31 +371,40 @@ class _$StrategiesModelImpl implements _StrategiesModel {
 
 abstract class _StrategiesModel implements StrategiesModel {
   factory _StrategiesModel(
-      {required final String userId,
-      required final String strategyName,
-      required final String description,
-      required final bool deployed,
-      required final List<IndicatorModel> indicators,
-      required final List<RuleModel> rules,
-      required final OrderDetailsModel orderDetails}) = _$StrategiesModelImpl;
+      {final String? id,
+      required final String? userId,
+      required final String? timeframe,
+      required final String? strategyName,
+      required final String? description,
+      required final bool? deployed,
+      required final List<IndicatorModel>? indicators,
+      required final List<EntryRuleModel>? entryRuleModel,
+      required final List<ExitRuleModel>? exitRuleModel,
+      required final OrderDetailsModel? orderDetails}) = _$StrategiesModelImpl;
 
   factory _StrategiesModel.fromJson(Map<String, dynamic> json) =
       _$StrategiesModelImpl.fromJson;
 
   @override
-  String get userId;
+  String? get id;
   @override
-  String get strategyName;
+  String? get userId;
   @override
-  String get description;
+  String? get timeframe;
   @override
-  bool get deployed;
+  String? get strategyName;
   @override
-  List<IndicatorModel> get indicators;
+  String? get description;
   @override
-  List<RuleModel> get rules;
+  bool? get deployed;
   @override
-  OrderDetailsModel get orderDetails;
+  List<IndicatorModel>? get indicators;
+  @override
+  List<EntryRuleModel>? get entryRuleModel;
+  @override
+  List<ExitRuleModel>? get exitRuleModel;
+  @override
+  OrderDetailsModel? get orderDetails;
 
   /// Create a copy of StrategiesModel
   /// with the given fields replaced by the non-null parameter values.
