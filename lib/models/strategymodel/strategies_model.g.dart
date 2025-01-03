@@ -18,9 +18,7 @@ _$StrategiesModelImpl _$$StrategiesModelImplFromJson(
       indicators: (json['indicators'] as List<dynamic>?)
           ?.map((e) => IndicatorModel.fromJson(e as Map<String, dynamic>))
           .toList(),
-      entryRuleModel: (json['entryRuleModel'] as List<dynamic>?)
-          ?.map((e) => EntryRuleModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      entryRuleModel: json['entryRuleModel'] as List<dynamic>?,
       exitRuleModel: (json['exitRuleModel'] as List<dynamic>?)
           ?.map((e) => ExitRuleModel.fromJson(e as Map<String, dynamic>))
           .toList(),

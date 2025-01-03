@@ -27,8 +27,7 @@ mixin _$StrategiesModel {
   String? get description => throw _privateConstructorUsedError;
   bool? get deployed => throw _privateConstructorUsedError;
   List<IndicatorModel>? get indicators => throw _privateConstructorUsedError;
-  List<EntryRuleModel>? get entryRuleModel =>
-      throw _privateConstructorUsedError;
+  List<dynamic>? get entryRuleModel => throw _privateConstructorUsedError;
   List<ExitRuleModel>? get exitRuleModel => throw _privateConstructorUsedError;
   OrderDetailsModel? get orderDetails => throw _privateConstructorUsedError;
 
@@ -56,7 +55,7 @@ abstract class $StrategiesModelCopyWith<$Res> {
       String? description,
       bool? deployed,
       List<IndicatorModel>? indicators,
-      List<EntryRuleModel>? entryRuleModel,
+      List<dynamic>? entryRuleModel,
       List<ExitRuleModel>? exitRuleModel,
       OrderDetailsModel? orderDetails});
 
@@ -121,7 +120,7 @@ class _$StrategiesModelCopyWithImpl<$Res, $Val extends StrategiesModel>
       entryRuleModel: freezed == entryRuleModel
           ? _value.entryRuleModel
           : entryRuleModel // ignore: cast_nullable_to_non_nullable
-              as List<EntryRuleModel>?,
+              as List<dynamic>?,
       exitRuleModel: freezed == exitRuleModel
           ? _value.exitRuleModel
           : exitRuleModel // ignore: cast_nullable_to_non_nullable
@@ -164,7 +163,7 @@ abstract class _$$StrategiesModelImplCopyWith<$Res>
       String? description,
       bool? deployed,
       List<IndicatorModel>? indicators,
-      List<EntryRuleModel>? entryRuleModel,
+      List<dynamic>? entryRuleModel,
       List<ExitRuleModel>? exitRuleModel,
       OrderDetailsModel? orderDetails});
 
@@ -228,7 +227,7 @@ class __$$StrategiesModelImplCopyWithImpl<$Res>
       entryRuleModel: freezed == entryRuleModel
           ? _value._entryRuleModel
           : entryRuleModel // ignore: cast_nullable_to_non_nullable
-              as List<EntryRuleModel>?,
+              as List<dynamic>?,
       exitRuleModel: freezed == exitRuleModel
           ? _value._exitRuleModel
           : exitRuleModel // ignore: cast_nullable_to_non_nullable
@@ -252,7 +251,7 @@ class _$StrategiesModelImpl implements _StrategiesModel {
       required this.description,
       required this.deployed,
       required final List<IndicatorModel>? indicators,
-      required final List<EntryRuleModel>? entryRuleModel,
+      required final List<dynamic>? entryRuleModel,
       required final List<ExitRuleModel>? exitRuleModel,
       required this.orderDetails})
       : _indicators = indicators,
@@ -284,9 +283,9 @@ class _$StrategiesModelImpl implements _StrategiesModel {
     return EqualUnmodifiableListView(value);
   }
 
-  final List<EntryRuleModel>? _entryRuleModel;
+  final List<dynamic>? _entryRuleModel;
   @override
-  List<EntryRuleModel>? get entryRuleModel {
+  List<dynamic>? get entryRuleModel {
     final value = _entryRuleModel;
     if (value == null) return null;
     if (_entryRuleModel is EqualUnmodifiableListView) return _entryRuleModel;
@@ -378,7 +377,7 @@ abstract class _StrategiesModel implements StrategiesModel {
       required final String? description,
       required final bool? deployed,
       required final List<IndicatorModel>? indicators,
-      required final List<EntryRuleModel>? entryRuleModel,
+      required final List<dynamic>? entryRuleModel,
       required final List<ExitRuleModel>? exitRuleModel,
       required final OrderDetailsModel? orderDetails}) = _$StrategiesModelImpl;
 
@@ -400,7 +399,7 @@ abstract class _StrategiesModel implements StrategiesModel {
   @override
   List<IndicatorModel>? get indicators;
   @override
-  List<EntryRuleModel>? get entryRuleModel;
+  List<dynamic>? get entryRuleModel;
   @override
   List<ExitRuleModel>? get exitRuleModel;
   @override

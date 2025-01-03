@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:practice/views/DefaultPage.dart';
 import 'package:practice/views/backtesTingResultsView.dart';
+import 'package:practice/views/importantFunction_Page.dart';
 import 'package:practice/views/strategyCreationPage.dart';
+
+import 'copyFIle.dart';
+import 'lala.dart';
 
 void main() {
   runApp(
@@ -70,7 +74,7 @@ color: Colors.black
 
       ),
 
-     home:  Defaultpage(),
+     home: Defaultpage()
     );
   }
 }

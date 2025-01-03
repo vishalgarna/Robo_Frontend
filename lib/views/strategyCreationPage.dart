@@ -6,6 +6,7 @@ import 'package:practice/views/DefaultPage.dart';
 import 'package:practice/views/backtesTingResultsView.dart';
 import 'package:practice/views/strategypage.dart';
 
+import '../copyFIle.dart';
 import '../providers/strtegiesProvider.dart';
 
 
@@ -25,6 +26,8 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
   bool deploysetloading = false;
   bool Backtestsetloading = false;
 
+ late List<Map<dynamic , dynamic>> entryCondition ;
+
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +37,7 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
         actions: [Padding(
           padding: const EdgeInsets.all( 8.0),
           child: TextButton(onPressed: () {
+            strategyServices.resetStrings();
             Navigator.pushAndRemoveUntil(context,
                 MaterialPageRoute(builder: (context) => Defaultpage()), (
                     Route<dynamic>routes) => false);
@@ -157,8 +161,13 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
                     ],
                   ),
                 ),
-                CardConditionWidgets(selectedCondition: "",),
-                CardConditionWidgets(selectedCondition: "Exit",),
+                customButtonWidgets( width : 350, title: 'Entry Condition', callback: () async{
+
+                 entryCondition  = await Navigator.push(context, MaterialPageRoute(builder: (context)=>StrategyBuilderScreen())) ?? [];
+                 print("vxgfhbn $entryCondition");
+                }, colors: Colors.grey.shade400,),
+                // CardConditionWidgets(selectedCondition: "",),
+                // CardCon        ditionWidgets(selectedCondition: "Exit",),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
@@ -232,8 +241,12 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
                                 setState(() {
                                   deploysetloading = true;
                                 });
+
                                 // callstrtegies creation function from strataservices  return true and false
-                                bool  success = await strategyServices.callStrategiesfunction(widget.pairName!, "deploy" , widget.strategyName).timeout(Duration(seconds: 10) , onTimeout: ()=> false) ?? false;
+                                final provider = ref.watch(Practice_Provider.notifier);
+
+                                provider.clearComponents();
+                                bool  success = await strategyServices.callStrategiesfunction(widget.pairName!, "deploy" , entryCondition ?? [] ).timeout(Duration(seconds: 10) , onTimeout: ()=> false) ?? false;
                                 if (success) {
                                   setState(() {
                                     deploysetloading = false;
@@ -338,15 +351,12 @@ class _CardConditionWidgetsState extends State<CardConditionWidgets> {
               widget.selectedCondition == "Exit" ? "Exit Condition" : "Entry Condition",
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
-            trailing: IconButton(
-              onPressed: () {
-                setState(() {
-                  isExpand = !isExpand;
-                });
-              },
-              icon: isExpand
-                  ? const Icon(Icons.arrow_back_ios)
-                  : const Icon(Icons.arrow_forward_ios),
+            trailing: Switch( value: isExpand, onChanged: (bool value) {
+              setState(() {
+                isExpand = value;
+              });
+
+            },
             ),
           ),
           const Divider(height: 0, thickness: 0.9),

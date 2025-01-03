@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../views/searchPairpage.dart';
 import 'customWidgets.dart';
 
 class allScannersWidget extends StatelessWidget {
@@ -15,6 +16,7 @@ class allScannersWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             customButtonWidgets(title: 'create scanner',width: 350, callback: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPair_Page(strategyName: "infinite",)));
             },),
             const SizedBox(
               height: 20,

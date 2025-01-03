@@ -27,55 +27,64 @@ class AllStrategyWidget extends ConsumerWidget {
               title: 'Create Strategy',
               width: 350,
               callback: () async {
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      backgroundColor: Colors.white,
-                      title: const Text(
-                        "Strategy Name",
-                        style: TextStyle(fontSize: 19),
-                      ),
-                      content: Form(
-                        key: state,
-                        child: TextFormField(
-                          controller: _controller,
-                          autovalidateMode: AutovalidateMode.onUserInteraction,
-                          validator: (value) {
-                            String newValue = value!.trim();
-                            if (newValue.isEmpty) {
-                              return 'Please Enter Name';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            String value = _controller.text.trim();
-                            if (state.currentState!.validate()) {
-                              strategyName = value;
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      SerachPairPage(strategyName: strategyName),
-                                ),
-                              );
-                            }
-                          },
-                          child: const Text('Ok'),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          child: const Text('Cancel'),
-                        ),
-                      ],
-                    );
-                  },
+                // showDialog
+                //   (
+                //   context: context,
+                //   builder: (context) {
+                //     return AlertDialog(
+                //       backgroundColor: Colors.white,
+                //       title: const Text(
+                //         "Strategy Name",
+                //         style: TextStyle(fontSize: 19),
+                //       ),
+                //       content: Form(
+                //         key: state,
+                //         child: TextFormField(
+                //           controller: _controller,
+                //           autovalidateMode: AutovalidateMode.onUserInteraction,
+                //           validator: (value) {
+                //             String newValue = value!.trim();
+                //             if (newValue.isEmpty) {
+                //               return 'Please Enter Name';
+                //             }
+                //             return null;
+                //           },
+                //         ),
+                //       ),
+                //       actions: [
+                //         TextButton(
+                //           onPressed: () {
+                //             String value = _controller.text.trim();
+                //             if (state.currentState!.validate()) {
+                //               strategyName = value;
+                //               Navigator.push(
+                //                 context,
+                //                 MaterialPageRoute(
+                //                   builder: (context) =>
+                //                       SearchPair_Page(strategyName: strategyName),
+                //                 ),
+                //               );
+                //             }
+                //           },
+                //           child: const Text('Ok'),
+                //         ),
+                //         TextButton(
+                //           onPressed: () {
+                //             Navigator.pop(context);
+                //           },
+                //           child: const Text('Cancel'),
+                //         ),
+                //       ],
+                //     );
+                //   },
+                // );
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        SearchPair_Page(strategyName: "strategyName"),
+                  ),
                 );
               },
             ),
@@ -113,17 +122,17 @@ class AllStrategyWidget extends ConsumerWidget {
       itemCount: model.length,
       itemBuilder: (context, index) {
         String generateParametersText(IndicatorModel indicator) {
-          return indicator.parameters!.values.join(",");
+          return indicator.parameters?.values.join(",") ?? "";
         }
 
-        String text =
-            'if ${model[index].indicators![0].type}(${generateParametersText(model[index].indicators![0])} )'
-            ' ${model[index].entryRuleModel![0].condition} ${model[index].indicators![1].type}(${generateParametersText(model[index].indicators![1])}) '
-            ' than ${model[index].entryRuleModel![0].action}\n'
-            'if ${model[index].indicators![2].type}(${generateParametersText(model[index].indicators![2])} )'
-            ' ${model[index].exitRuleModel![0].condition} ${model[index].indicators![3].type}(${generateParametersText(model[index].indicators![2])}) '
-            'of ${model[index].orderDetails!.symbol}'
-            '  than exit ${model[index].orderDetails!.volume}.qty in ${model[index].timeframe} timeframe';
+        // String text =
+        //     'if ${model[index].indicators![0].type}(${generateParametersText(model[index].indicators![0])} )'
+        //     ' ${model[index].entryRuleModel![0].condition} ${model[index].indicators![1].type}(${generateParametersText(model[index].indicators![1])}) '
+        //     ' than ${model[index].orderDetails?.orderType ?? "BUY" }\n'
+        //     'if ${model[index].indicators![2].type}(${generateParametersText(model[index].indicators![2])} )'
+        //     ' ${model[index].exitRuleModel![0].condition} ${model[index].indicators![3].type}(${generateParametersText(model[index].indicators![2])}) '
+        //     'of ${model[index].orderDetails!.symbol}'
+        //     '  than exit ${model[index].orderDetails!.volume}.qty in ${model[index].timeframe} timeframe';
 
         return Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
@@ -134,8 +143,8 @@ class AllStrategyWidget extends ConsumerWidget {
                 model[index].strategyName!,
                 style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
               ),
-              subtitle: ExpandableText(
-                text,
+              subtitle: const ExpandableText(
+                "Hell jo ji kaisw ho ",
                 style: TextStyle(fontSize: 12),
                 expandText: 'more',
                 collapseText: 'less',

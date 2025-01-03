@@ -22,7 +22,7 @@ class StrategiesModel with _$StrategiesModel {
     required String? description,
     required bool? deployed,
     required List<IndicatorModel>? indicators,
-    required List<EntryRuleModel>? entryRuleModel,
+    required List ? entryRuleModel,
     required List<ExitRuleModel>? exitRuleModel,
     required OrderDetailsModel? orderDetails,
   }) = _StrategiesModel;

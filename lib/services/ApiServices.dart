@@ -16,7 +16,7 @@ class ApiServices  {
     try {
       var response = await http
           .post(
-        Uri.parse("http://192.168.1.166:2003/api/create-strategy"),
+        Uri.parse("http://13.203.50.253:2003/api/create-strategy"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           "strategyName": model.strategyName,
@@ -51,7 +51,7 @@ class ApiServices  {
       };
 
       var response = await http.get(
-        Uri.parse("http://192.168.1.166:2003/api/get-strategy"),
+        Uri.parse("http://13.203.50.253:2003/api/get-strategy"),
         headers: requestHeaders,
       );
 
@@ -78,7 +78,7 @@ class ApiServices  {
 Future<bool>deleteStrategy(id) async {
   try
   {
-    var response = await http.delete(Uri.parse('http://192.168.1.166:2003/api/delete-strategy/'+id)).timeout(
+    var response = await http.delete(Uri.parse('http://13.203.50.253:2003/api/delete-strategy/'+id)).timeout(
       const Duration(seconds: 10));
 
     if(response.statusCode == 200){
@@ -116,28 +116,56 @@ Future<BackTestingModel ?>backTestResult( data) async {
 
   }
 }
+ Future<bool> placeOrder(OrderModel model) async {
+    try {
+      var response = await http.post(
+        Uri.parse("http://13.203.50.253:5800/vishal"),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "symbol": model.symbol,
+          "volume": model.volume,
+          "type": model.type,
+        }),
+      ).timeout(const Duration(seconds: 10));
 
-Future<bool>placeOrder(OrderModel model) async {
-    try
-  {
-    var response = await http.post(Uri.parse(config.baseUrlfororder) ,
-        body: jsonEncode(model)).timeout(
-      const Duration(seconds: 10));
-
-    if(response.statusCode == 200){
-      return true;
-    }
-    else{
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('Failed to place order. Status code: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error: ${e.toString()}');
       return false;
     }
-  }  catch(e) {
-
-    print(e.toString());
-    return false;
-
   }
-}
 
 
+  Future<bool> addImportan(data) async {
+    try {
+      var response = await http
+          .post(
+        Uri.parse("http://13.203.50.253:2003/create-important"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "timeframe": data["timeframe"],
+          "orderDetails": data["orderDetails"],
+        }),
+      )
+          .timeout(const Duration(seconds: 10));
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('Failed to create strategy. Status code: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error: ${e.toString()}');
+      return false;
+    }
+  }
 
 }

@@ -22,6 +22,9 @@ class _orderplacedState extends State<orderplaced> {
   double ? selectedqty ;
 
   String selctedOrdetype ="Market Price";
+
+  final tp_controller = TextEditingController();
+  final sl_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -69,6 +72,58 @@ class _orderplacedState extends State<orderplaced> {
                     ),
                   ),
                   const SizedBox(height: 10,),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 150,
+                      width: 400,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(3),
+                      ),
+                      child:  Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                                  Expanded(
+                                    child: SizedBox(
+                                      height: 50,
+                                      width: 200,
+                                      child: TextField(
+                                        controller: sl_controller,
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
+                                          suffixIcon: Icon(Icons.percent_sharp),
+                                          labelText: "StopLoss",
+                                            border: OutlineInputBorder(
+                                    
+                                            )
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                            const SizedBox(width:10 ,),
+                            Expanded(
+                              child: SizedBox(
+                                      height: 50,
+                                      width: 200,
+                                      child: TextField(
+                                        controller: tp_controller,
+                                        keyboardType: TextInputType.number,
+                                        decoration: const InputDecoration(
+                                            suffixIcon: Icon(Icons.percent_sharp),
+                                          labelText: "TakeProfit",
+                                            border: OutlineInputBorder()
+                                        ),
+                                      ),
+                                    ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   const Divider(),
                   const Text("Either We Can Add Chart or Voloume Data" )
                 ],
@@ -104,16 +159,23 @@ class _floatingActionButtonState extends State<floatingActionButton> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          customButtonWidgets( loading : isloadingforBUY, title: widget.title ?? 'BUY', callback: ()async {
+          customButtonWidgets( loading : isloadingforBUY, title: widget.title ?? '', callback: ()async {
             setState(() {
               isloadingforBUY = true;
             });
 
-            final model =  OrderModel(action: "action", symbol: widget.symbol ?? "", type: "BUY", volume: widget.selectedqty ?? 0.1 );
+            final model =  OrderModel(action: "action", symbol: widget.symbol ?? "", type: "BUY", volume: widget.selectedqty ?? 0.01 );
             try{
               bool result =  await services.placeOrder(model).timeout(const Duration(seconds: 10) , onTimeout: ()=>false);
 
-                CustomSnackbar.show(context , "BUY order placed",Colors.green);
+                // CustomSnackbar.show(context , "BUY order placed",Colors.green);
+              if(result){
+                CustomSnackbar.show(context , "Buy order placed",widget.color ?? Colors.green);
+              }
+              else{
+                CustomSnackbar.show(context , "Error during placed order",Colors.red);
+              }
+
               setState(() {
                 isloadingforBUY = false;
               });
@@ -134,16 +196,23 @@ class _floatingActionButtonState extends State<floatingActionButton> {
 
 
           }, colors: Colors.green, ),
-          customButtonWidgets(title: widget.title ??'SELL', callback: ()async {
+          customButtonWidgets(title: widget.title ??'', callback: ()async {
 
             setState(() {
               isloadingforsell = true;
             });
                 final model =  OrderModel(action: "action", symbol: widget.symbol?? "", type: "SELL", volume: widget.selectedqty ?? 0.1);
             try{
-             await services.placeOrder(model).timeout(const Duration(seconds:10 ,), onTimeout: ()=> false);
+             bool result  = await services.placeOrder(model).timeout(const Duration(seconds:10 ,), onTimeout: ()=> false);
 
-              CustomSnackbar.show(context , "SELL order placed",widget.color ?? Colors.green);
+             if(result){
+               CustomSnackbar.show(context , "Sell order placed",widget.color ?? Colors.green);
+             }
+
+             else {
+               CustomSnackbar.show(context , "Error during placed order",Colors.red);
+             }
+
               setState(() {
                 isloadingforBUY = false;
               });

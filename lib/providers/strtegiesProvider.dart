@@ -13,3 +13,5 @@ final StrategiesProvider = StateNotifierProvider<StrategiesNotifier , Strategies
   return StrategiesNotifier(repo);
 
 });
+
+final Practice_Provider = ChangeNotifierProvider((ref)=>TryStrategies());
