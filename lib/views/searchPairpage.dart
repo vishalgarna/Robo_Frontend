@@ -1,19 +1,19 @@
-
 import 'package:flutter/material.dart';
-import 'package:practice/Utils/StradegyCreatetion_Utilities.dart';
-import 'package:practice/views/importantFunction_Page.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:practice/views/strategyCreationPage.dart';
 
-class SearchPair_Page extends StatefulWidget {
+import '../Utils/StradegyCreatetion_Utilities.dart';
+import '../providers/Providers.dart';
 
+class SearchPairPage extends ConsumerStatefulWidget {
   String strategyName;
-   SearchPair_Page({super.key , required this.strategyName});
+  SearchPairPage({Key? key, required this.strategyName}) : super(key: key);
 
   @override
-  State<SearchPair_Page> createState() => _SearchPair_PageState();
+  _SearchPairPageState createState() => _SearchPairPageState();
 }
 
-class _SearchPair_PageState extends State<SearchPair_Page> {
+class _SearchPairPageState extends ConsumerState<SearchPairPage> {
   List result = [];
 
   @override
@@ -22,12 +22,20 @@ class _SearchPair_PageState extends State<SearchPair_Page> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(pairListProvider);
     return Scaffold(
       appBar: AppBar(
-        // automaticallyImplyLeading: false,
+        title: const Text("symbols"),
+        actions: [
+          TextButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>StrategyCreationPage(pairName: pairNames()?? "pairNames", strategyName: "strategyName")));
+          }, child: const Padding(
+            padding: EdgeInsets.only(right: 30.0),
+            child: Text("ok" , style: TextStyle(color: Colors.black , fontSize: 22),),
+          ))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -38,56 +46,47 @@ class _SearchPair_PageState extends State<SearchPair_Page> {
               child: SizedBox(
                 width: 340,
                 child: TextField(
-                  onChanged: (itemsearch){
-
-                    filterpairs(itemsearch);
-
+                  onChanged: (itemSearch) {
+                    filterPairs(itemSearch);
                   },
                   controller: strategyServices.searchControllers,
                   decoration: InputDecoration(
                     label: const Text('search pair'),
                     prefixIcon: const Icon(Icons.search),
                     border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10)
-                    )
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 20,),
-
             Expanded(
               child: ListView.separated(
-
                 itemCount: result.length,
-                  itemBuilder: (context , index){
-                 return ListTile(
-                   onTap: (){
-
-                     if(widget.strategyName == "infinite"){
-
-
-                       Navigator.pushAndRemoveUntil
-                         (context, MaterialPageRoute(builder:
-                           (context)=>importanFunctionPage(pairName: result[index],)),
-                               (Route<dynamic>routes)=>false);
-
-                     }
-                     else{
-                       Navigator.pushAndRemoveUntil
-                         (context, MaterialPageRoute(builder:
-                           (context)=>StrategyCreationPage(pairName: result[index], strategyName: widget.strategyName,)),
-                               (Route<dynamic>routes)=>false);
-                     }
-
-                   },
-                   title: Text(result[index]),
-                   trailing: const Icon(Icons.arrow_forward_ios_sharp , size: 20,),
-                 );
-
-              }, separatorBuilder: (BuildContext context, int index) {
+                itemBuilder: (context, index) {
+                  bool isSelectedValue = provider.isSelected(result[index]);
+                  return ListTile(
+                    title: Text(result[index]),
+                    trailing: Transform.scale(
+                      scale: 1.2,
+                      child: Checkbox(
+                        value: isSelectedValue,
+                        onChanged: (cngValue) {
+                          if (cngValue == true) {
+                            provider.addPair(result[index]);
+                          } else {
+                            provider.removePair(result[index]);
+                          }
+                        },
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) {
                   return const Divider(height: 0,);
-              },),
+                },
+              ),
             ),
           ],
         ),
@@ -95,22 +94,22 @@ class _SearchPair_PageState extends State<SearchPair_Page> {
     );
   }
 
-  void filterpairs (String itemName){
-    
-  List newlist = [];
-    
+  void filterPairs(String itemName) {
+    List newList = strategyServices.foresPairs.where((item) {
+      return item.toString().toLowerCase().contains(itemName.toLowerCase());
+    }).toList();
 
-      newlist = strategyServices.foresPairs.where((item){
-        
-       return  item.toString().toLowerCase().contains(itemName.toLowerCase());
-        
-      }).toList();
-
-    
     setState(() {
-      result = newlist;
+      result = newList;
     });
-    
-    
+  }
+  String ? pairNames (){
+    final provider = ref.read(pairListProvider.notifier);
+    String pairs  = "";
+     pairs = provider.pairList.join(",");
+     return pairs;
+
   }
 }
+
+

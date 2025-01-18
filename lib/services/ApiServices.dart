@@ -12,7 +12,7 @@ import '../config/appUrls.dart';
 final apiserivces = Provider((ref)=>ApiServices());
 class ApiServices  {
 
-  Future<bool> createStrategy(StrategiesModel model) async {
+  Future<bool> createStrategy(StrategiesModel model ) async {
     try {
       var response = await http
           .post(
@@ -23,9 +23,36 @@ class ApiServices  {
           "timeframe": model.timeframe,
           "description": model.description,
           "deployed": model.deployed,
-          "indicators": model.indicators,
           "entryRuleModel": model.entryRuleModel,
-          "exitRuleModel": model.exitRuleModel,
+          "orderDetails": model.orderDetails,
+        }),
+      )
+          .timeout(const Duration(seconds: 10));
+
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        print('Failed to create strategy. Status code: ${response.statusCode}');
+        return false;
+      }
+    } catch (e) {
+      print('Error: ${e.toString()}');
+      return false;
+    }
+  }
+
+  Future<bool> updateStrategies(StrategiesModel model, String id) async {
+    try {
+      var response = await http
+          .put(
+        Uri.parse("http://13.203.50.253:2003/api/create-strategy"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "strategyName": model.strategyName,
+          "strategyId" : id,
+          "timeframe": model.timeframe,
+          "deployed": model.deployed,
+          "entryRuleModel": model.entryRuleModel,
           "orderDetails": model.orderDetails,
         }),
       )
@@ -94,28 +121,6 @@ Future<bool>deleteStrategy(id) async {
 
   }
 }
-
-Future<BackTestingModel ?>backTestResult( data) async {
-  try
-  {
-    var response = await http.post(Uri.parse(config.baseUrlforstrategy+config.getbacktestresult ) ,
-        body: jsonEncode(data)).timeout(
-      const Duration(seconds: 10),);
-
-    if(response.statusCode == 200){
-      var data = jsonDecode(response.body);
-      return BackTestingModel.fromJson(data['data']);
-    }
-    else{
-      return null;
-    }
-  }  catch(e) {
-
-    print(e.toString());
-    return null;
-
-  }
-}
  Future<bool> placeOrder(OrderModel model) async {
     try {
       var response = await http.post(
@@ -168,4 +173,35 @@ Future<BackTestingModel ?>backTestResult( data) async {
     }
   }
 
+}
+
+
+
+Future<bool ?> BacktestResults(StrategiesModel model) async {
+  try {
+    var response = await http
+        .post(
+      Uri.parse("http://13.203.50.253:2003/api/create-strategy"),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({
+        "strategyName": model.strategyName,
+        "timeframe": model.timeframe,
+        "description": model.description,
+        "deployed": model.deployed,
+        "entryRuleModel": model.entryRuleModel,
+        "orderDetails": model.orderDetails,
+      }),
+    )
+        .timeout(const Duration(seconds: 10));
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      print('Failed to create strategy. Status code: ${response.statusCode}');
+      return false;
+    }
+  } catch (e) {
+    print('Error: ${e.toString()}');
+    return false;
+  }
 }

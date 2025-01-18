@@ -9,19 +9,13 @@ part of 'strategies_model.dart';
 _$StrategiesModelImpl _$$StrategiesModelImplFromJson(
         Map<String, dynamic> json) =>
     _$StrategiesModelImpl(
-      id: json['id'] as String?,
+      id: json['_id'] as String?,
       userId: json['userId'] as String?,
       timeframe: json['timeframe'] as String?,
       strategyName: json['strategyName'] as String?,
       description: json['description'] as String?,
       deployed: json['deployed'] as bool?,
-      indicators: (json['indicators'] as List<dynamic>?)
-          ?.map((e) => IndicatorModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
       entryRuleModel: json['entryRuleModel'] as List<dynamic>?,
-      exitRuleModel: (json['exitRuleModel'] as List<dynamic>?)
-          ?.map((e) => ExitRuleModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
       orderDetails: json['orderDetails'] == null
           ? null
           : OrderDetailsModel.fromJson(
@@ -37,8 +31,6 @@ Map<String, dynamic> _$$StrategiesModelImplToJson(
       'strategyName': instance.strategyName,
       'description': instance.description,
       'deployed': instance.deployed,
-      'indicators': instance.indicators,
       'entryRuleModel': instance.entryRuleModel,
-      'exitRuleModel': instance.exitRuleModel,
       'orderDetails': instance.orderDetails,
     };

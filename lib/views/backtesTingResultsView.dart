@@ -3,15 +3,15 @@ import 'package:practice/models/backTestingmodel/backTestingModel.dart';
 
 class BackTestResultPage extends StatelessWidget {
   BackTestingModel ? model;
-  String strategyName;
+  String ? strategyName;
 
-  BackTestResultPage({super.key, this.model, required this.strategyName});
+  BackTestResultPage({super.key, this.model, this.strategyName});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(strategyName),
+        title: Text(strategyName ??"backtest_results"),
       ),
       body: const SingleChildScrollView(
         child: Column(

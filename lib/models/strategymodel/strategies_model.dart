@@ -1,10 +1,5 @@
 import 'package:practice/models/strategiesHelpermodel/orderDetailsmodel.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../strategiesHelpermodel/entryRule.dart';
-import '../strategiesHelpermodel/exitRule.dart';
-import '../strategiesHelpermodel/indicatormodel.dart';
-
 part 'strategies_model.freezed.dart';
 part 'strategies_model.g.dart';
 
@@ -21,9 +16,7 @@ class StrategiesModel with _$StrategiesModel {
     required String? strategyName,
     required String? description,
     required bool? deployed,
-    required List<IndicatorModel>? indicators,
     required List ? entryRuleModel,
-    required List<ExitRuleModel>? exitRuleModel,
     required OrderDetailsModel? orderDetails,
   }) = _StrategiesModel;
 

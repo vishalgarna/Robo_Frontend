@@ -6,7 +6,7 @@ part 'orderDetailsmodel.g.dart';
 @freezed
 class OrderDetailsModel with _$OrderDetailsModel {
   factory OrderDetailsModel({
-    required String? orderType,
+    required String? type,
     required String? symbol,
     required int? volume,
     required int? stopLoss,

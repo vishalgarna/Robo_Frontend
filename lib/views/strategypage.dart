@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:practice/Widgets/allScannerWidget.dart';
 import 'package:practice/Widgets/allStrategyWidgets.dart';
-import 'package:practice/providers/strtegiesProvider.dart'; // Ensure correct import
+import 'package:practice/providers/Providers.dart'; // Ensure correct import
 
 class StrategyPage extends ConsumerStatefulWidget {
   const StrategyPage({super.key});
@@ -25,7 +25,7 @@ class _StrategyPageState extends ConsumerState<StrategyPage> with SingleTickerPr
 
   Future<void> fetchStrategies() async {
     final prov = ref.read(StrategiesProvider.notifier); // Correct method to read provider
-    await prov.getStategies(context); // Call the async function
+    await prov.getStategies(); // Call the async function
   }
 
   @override

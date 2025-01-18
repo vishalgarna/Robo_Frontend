@@ -46,7 +46,7 @@ class _importanFunctionPageState extends State<importanFunctionPage> {
               children: [
                 const Text("symbol:",style: TextStyle(fontSize: 20),),
                 TextButton(onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPair_Page(strategyName: "infinite")));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPairPage(strategyName: "infinite")));
                 }, child: Text(widget.pairName , style: const TextStyle(fontSize: 15),)),
               ],
             ),

@@ -3,10 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:practice/views/DefaultPage.dart';
 import 'package:practice/views/backtesTingResultsView.dart';
 import 'package:practice/views/importantFunction_Page.dart';
+import 'package:practice/views/searchPairpage.dart';
 import 'package:practice/views/strategyCreationPage.dart';
 
+import 'Widgets/allStrategyWidgets.dart';
 import 'copyFIle.dart';
 import 'lala.dart';
+import 'views/strategypage.dart';
 
 void main() {
   runApp(
@@ -65,7 +68,7 @@ color: Colors.black
         buttonTheme: ButtonThemeData(
           buttonColor: Colors.blue.shade500
         ),
-        scaffoldBackgroundColor: Colors.blueGrey[50],
+        scaffoldBackgroundColor: Colors.white,
         appBarTheme: AppBarTheme(
           color: Colors.blueGrey.shade100
         ), textSelectionTheme: const TextSelectionThemeData(
@@ -74,7 +77,7 @@ color: Colors.black
 
       ),
 
-     home: Defaultpage()
+     home: SearchPairPage(strategyName: "strategyName")
     );
   }
 }

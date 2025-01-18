@@ -3,14 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:practice/providers/Providers.dart';
 import 'package:logging/logging.dart';
 
-import 'Utils/notifier/strategieNotifier.dart';
+import '../Utils/notifier/strategieNotifier.dart';
 
-class StrategyBuilderScreen extends ConsumerStatefulWidget {
+class Edit_Strategy_builder extends ConsumerStatefulWidget {
   @override
   _StrategyBuilderScreenState createState() => _StrategyBuilderScreenState();
 }
 
-class _StrategyBuilderScreenState extends ConsumerState<StrategyBuilderScreen> {
+class _StrategyBuilderScreenState extends ConsumerState<Edit_Strategy_builder> {
   final Logger _logger = Logger('StrategyBuilderLogger');
 
   List<Indicator> availableIndicators = [

@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:practice/models/strategiesHelpermodel/exitRule.dart';
-import 'package:practice/models/strategiesHelpermodel/indicatormodel.dart';
 import 'package:practice/models/strategiesHelpermodel/orderDetailsmodel.dart';
-import 'package:practice/models/strategiesHelpermodel/entryRule.dart';
 import 'package:practice/models/strategymodel/strategies_model.dart';
 import 'package:practice/services/ApiServices.dart';
 import 'package:uuid/uuid.dart';
@@ -34,9 +31,10 @@ mixin strategyServices {
   }
 
 
-   static final qtyController = TextEditingController(text: "0.1");
+   static TextEditingController qtyController = TextEditingController(text: "0.1");
 
   static List<String> indicators = ["SMA" ,"RSI" , "MACD" , "ADX"  , "HMA"];
+
 
   static Map<String, List<String>> indicatorParameters = {
     "SMA": ['period'],
@@ -89,65 +87,32 @@ mixin strategyServices {
 
   }
 
-
-  // this function is help to call strategies creation function rtetur nture and false after creating
-
-  static Map<String, String>? getParameters(String key)
-  {
-    if (controllersMap.containsKey(key))
-    { Map<String, TextEditingController> innerMap = controllersMap[key]!;
-      Map<String, String> parameters = {};
-      innerMap.forEach((paramKey, controller)
-  { parameters[paramKey] = controller.text; });
-      return parameters; } return null; }
-
   static Future<dynamic> callStrategiesfunction(String symbol , functionName , entryCondition)async{
 
-
-    // initailazi all nescesary file to create strategies in this contirller
-    final Entrymodel1 =IndicatorModel.create(type: EntrySelectedIndicator ?? "", parameters: getParameters('EntrySelectedIndicator') ?? {});// {"period" : 30});
-    final Entrymodel2 = IndicatorModel.create(type: EntrySelectedIndicator2?? "", parameters: getParameters('EntrySelectedIndicator2') ?? {});
-    // initailazi all nescesary file to create strategies in this contirller
-    final Exitmodel1 =IndicatorModel.create(type: ExitSelectedIndicator ?? "", parameters: getParameters('ExitSelectedIndicator') ?? {});// {"period" : 30});
-    final Exitmodel2 = IndicatorModel.create(type: ExitSelectedIndicator2?? "", parameters: getParameters('ExitSelectedIndicator2') ?? {});
-
-    final entryRule =  EntryRuleModel(indicatorId: Entrymodel1.indicatorId, condition: EntrySelectedCondition ?? "", value: Entrymodel1.indicatorId, action: EntryselectedAction ?? "");
-    final exitRule =  ExitRuleModel(indicatorId: Entrymodel1.indicatorId, condition: ExitSelectedCondition ?? "", value: Exitmodel2.indicatorId, action: EntryselectedAction ?? "");
-
-    final  orderdetailsmodel =  OrderDetailsModel(orderType: "BUY", symbol:symbol , volume: 2, stopLoss: 2, takeProfit: 2);
+    final  orderdetailsmodel =  OrderDetailsModel(type: "BUY", symbol:symbol , volume: 2, stopLoss: 2, takeProfit: 2);
 
 
     final model = StrategiesModel
       (
       userId: "674f044539c250120a20854e",
       strategyName: "new Strategy",
-      timeframe: selectedTimeframe ?? '1m',
+      timeframe: selectedTimeframe ?? '',
       description: "This iS testing",
       deployed: true,
-      indicators: [Entrymodel1 , Entrymodel2 , Exitmodel1 , Exitmodel2],
       entryRuleModel: entryCondition,
-      exitRuleModel: [exitRule],
       orderDetails: orderdetailsmodel,
 
     );
-    final data = {
-      "symbol" : orderdetailsmodel.symbol ?? " ",
-       "strategy" : model,
-      "timeframe" : "m1",
-       "fromDate" : "2024-12-10",
-      "toDate" : "2024-12-11"
-    };
-
     controllersMap.clear();
     resetStrings();
 
     if(functionName == "backTest"){
 
-      var response = await services.backTestResult(data).timeout(
-        const Duration(seconds:10 ),
-        onTimeout: () => null,
-      );
-      return response ;
+      // var response = await services.backTestResult(data).timeout(
+      //   const Duration(seconds:10 ),
+      //   onTimeout: () => null,
+      // );
+      // return response ;
     }
 
     return await services.createStrategy(model).timeout(const Duration(seconds: 10), onTimeout: ()=> false);
@@ -155,6 +120,55 @@ mixin strategyServices {
 
   }
 
+  static String getText(entryRuleModel) {
+    // dynamic entryRuleModel = [
+    //   {
+    //     "type": "indicator",
+    //     "name": "SMA",
+    //     "parameters": {"time period": 50}
+    //   },
+    //   {
+    //     "type": "condition",
+    //     "name": "isGreaterThan"
+    //   },
+    //   {
+    //     "type": "indicator",
+    //     "name": "close",
+    //     "parameters": {"time period": 200}
+    //   },
+    //   {
+    //     "type": "logicalOperator",
+    //     "name": "AND"
+    //   },
+    //   {
+    //     "type": "indicator",
+    //     "name": "MACD",
+    //     "parameters": {
+    //       "fast period": 12,
+    //       "slow period": 26,
+    //       "signal period": 9
+    //     }
+    //   }
+    // ];
+
+    String text = '';
+    entryRuleModel.forEach((entry) {
+      entry.forEach((key, value) {
+        if (key == "name" && entry["type"] == "indicator") {
+          text += value.toString();
+        } else if (key == "parameters") {
+          text += getParameters(value);
+        } else if (key == "name") {
+          text += ' ' + value.toString() + ' ';
+        }
+      });
+    });
+    return text;
+  }
+
+  static String getParameters(Map<String, dynamic> parameters) {
+    return ' (${parameters.values.join(',')})';
+  }
 
 
 }
@@ -176,4 +190,6 @@ class CustomSnackbar {
       ),
     );
   }
+
+
 }

@@ -9,7 +9,7 @@ part of 'orderDetailsmodel.dart';
 _$OrderDetailsModelImpl _$$OrderDetailsModelImplFromJson(
         Map<String, dynamic> json) =>
     _$OrderDetailsModelImpl(
-      orderType: json['orderType'] as String?,
+      type: json['type'] as String?,
       symbol: json['symbol'] as String?,
       volume: (json['volume'] as num?)?.toInt(),
       stopLoss: (json['stopLoss'] as num?)?.toInt(),
@@ -19,7 +19,7 @@ _$OrderDetailsModelImpl _$$OrderDetailsModelImplFromJson(
 Map<String, dynamic> _$$OrderDetailsModelImplToJson(
         _$OrderDetailsModelImpl instance) =>
     <String, dynamic>{
-      'orderType': instance.orderType,
+      'type': instance.type,
       'symbol': instance.symbol,
       'volume': instance.volume,
       'stopLoss': instance.stopLoss,

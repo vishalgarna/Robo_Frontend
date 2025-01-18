@@ -20,7 +20,7 @@ OrderDetailsModel _$OrderDetailsModelFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$OrderDetailsModel {
-  String? get orderType => throw _privateConstructorUsedError;
+  String? get type => throw _privateConstructorUsedError;
   String? get symbol => throw _privateConstructorUsedError;
   int? get volume => throw _privateConstructorUsedError;
   int? get stopLoss => throw _privateConstructorUsedError;
@@ -43,7 +43,7 @@ abstract class $OrderDetailsModelCopyWith<$Res> {
       _$OrderDetailsModelCopyWithImpl<$Res, OrderDetailsModel>;
   @useResult
   $Res call(
-      {String? orderType,
+      {String? type,
       String? symbol,
       int? volume,
       int? stopLoss,
@@ -65,16 +65,16 @@ class _$OrderDetailsModelCopyWithImpl<$Res, $Val extends OrderDetailsModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderType = freezed,
+    Object? type = freezed,
     Object? symbol = freezed,
     Object? volume = freezed,
     Object? stopLoss = freezed,
     Object? takeProfit = freezed,
   }) {
     return _then(_value.copyWith(
-      orderType: freezed == orderType
-          ? _value.orderType
-          : orderType // ignore: cast_nullable_to_non_nullable
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String?,
       symbol: freezed == symbol
           ? _value.symbol
@@ -105,7 +105,7 @@ abstract class _$$OrderDetailsModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? orderType,
+      {String? type,
       String? symbol,
       int? volume,
       int? stopLoss,
@@ -125,16 +125,16 @@ class __$$OrderDetailsModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? orderType = freezed,
+    Object? type = freezed,
     Object? symbol = freezed,
     Object? volume = freezed,
     Object? stopLoss = freezed,
     Object? takeProfit = freezed,
   }) {
     return _then(_$OrderDetailsModelImpl(
-      orderType: freezed == orderType
-          ? _value.orderType
-          : orderType // ignore: cast_nullable_to_non_nullable
+      type: freezed == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String?,
       symbol: freezed == symbol
           ? _value.symbol
@@ -160,7 +160,7 @@ class __$$OrderDetailsModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$OrderDetailsModelImpl implements _OrderDetailsModel {
   _$OrderDetailsModelImpl(
-      {required this.orderType,
+      {required this.type,
       required this.symbol,
       required this.volume,
       required this.stopLoss,
@@ -170,7 +170,7 @@ class _$OrderDetailsModelImpl implements _OrderDetailsModel {
       _$$OrderDetailsModelImplFromJson(json);
 
   @override
-  final String? orderType;
+  final String? type;
   @override
   final String? symbol;
   @override
@@ -182,7 +182,7 @@ class _$OrderDetailsModelImpl implements _OrderDetailsModel {
 
   @override
   String toString() {
-    return 'OrderDetailsModel(orderType: $orderType, symbol: $symbol, volume: $volume, stopLoss: $stopLoss, takeProfit: $takeProfit)';
+    return 'OrderDetailsModel(type: $type, symbol: $symbol, volume: $volume, stopLoss: $stopLoss, takeProfit: $takeProfit)';
   }
 
   @override
@@ -190,8 +190,7 @@ class _$OrderDetailsModelImpl implements _OrderDetailsModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$OrderDetailsModelImpl &&
-            (identical(other.orderType, orderType) ||
-                other.orderType == orderType) &&
+            (identical(other.type, type) || other.type == type) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.volume, volume) || other.volume == volume) &&
             (identical(other.stopLoss, stopLoss) ||
@@ -203,7 +202,7 @@ class _$OrderDetailsModelImpl implements _OrderDetailsModel {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, orderType, symbol, volume, stopLoss, takeProfit);
+      Object.hash(runtimeType, type, symbol, volume, stopLoss, takeProfit);
 
   /// Create a copy of OrderDetailsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -224,7 +223,7 @@ class _$OrderDetailsModelImpl implements _OrderDetailsModel {
 
 abstract class _OrderDetailsModel implements OrderDetailsModel {
   factory _OrderDetailsModel(
-      {required final String? orderType,
+      {required final String? type,
       required final String? symbol,
       required final int? volume,
       required final int? stopLoss,
@@ -234,7 +233,7 @@ abstract class _OrderDetailsModel implements OrderDetailsModel {
       _$OrderDetailsModelImpl.fromJson;
 
   @override
-  String? get orderType;
+  String? get type;
   @override
   String? get symbol;
   @override

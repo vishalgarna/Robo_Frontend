@@ -16,7 +16,7 @@ class allScannersWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             customButtonWidgets(title: 'create scanner',width: 350, callback: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPair_Page(strategyName: "infinite",)));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>SearchPairPage(strategyName: "infinite",)));
             },),
             const SizedBox(
               height: 20,

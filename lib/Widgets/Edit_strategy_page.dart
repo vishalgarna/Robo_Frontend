@@ -2,54 +2,54 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:practice/Utils/StradegyCreatetion_Utilities.dart';
 import 'package:practice/Widgets/customWidgets.dart';
+import 'package:practice/models/strategymodel/strategies_model.dart';
 import 'package:practice/views/DefaultPage.dart';
 import 'package:practice/views/backtesTingResultsView.dart';
 import '../copyFIle.dart';
 import '../providers/Providers.dart';
 
 
-class StrategyCreationPage extends StatefulWidget {
+class Edit_Strategy extends StatefulWidget {
 
-String  ? pairName ;
-String strategyName;
+ StrategiesModel model ;
 
 
-  StrategyCreationPage({super.key, required this.pairName , required this.strategyName});
+  Edit_Strategy({super.key, required this.model});
 
   @override
-  _StrategyCreationPageState createState() => _StrategyCreationPageState();
+  _Edit_StrategyState createState() => _Edit_StrategyState();
 }
 
-class _StrategyCreationPageState extends State<StrategyCreationPage> {
+class _Edit_StrategyState extends State<Edit_Strategy> {
 
   bool deploysetloading = false;
   bool Backtestsetloading = false;
   String text = ' ';
- late List<Map<dynamic , dynamic>> entryCondition ;
- @override
- void initState() {
-   super.initState();
-   text = '';
-   // Initialize text as an empty string
- }
 
- @override
+  late List<Map<dynamic , dynamic>> entryCondition ;
+
+  @override
+  void initState() {
+    super.initState();
+    text = strategyServices.getText(widget.model.entryRuleModel);  // Initialize text as an empty string
+    strategyServices.EntryselectedAction = widget.model.orderDetails!.type ;
+
+    strategyServices.selectedTimeframe = widget.model.timeframe;
+  }
+
+  @override
   Widget build(BuildContext context) {
-   print("zxdfs"+text);
     return Scaffold(
-
       appBar: AppBar(
         actions: [Padding(
           padding: const EdgeInsets.all( 8.0),
           child: TextButton(onPressed: () {
             strategyServices.resetStrings();
-            Navigator.pushAndRemoveUntil(context,
-                MaterialPageRoute(builder: (context) => Defaultpage()), (
-                    Route<dynamic>routes) => false);
+            Navigator.pop(context);
           }, child: const Text('cancel', style: TextStyle(fontSize: 19),)),
         )
         ],
-        title: Text(widget.pairName!, style: const TextStyle(fontSize: 17),),
+        title: Text(widget.model.strategyName ?? "Edit_Strategy", style: const TextStyle(fontSize: 17),),
 
       ),
       body: Padding(
@@ -167,7 +167,7 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
                     ],
                   ),
                 ),
-            // Your button condition check
+                // Your button condition check
                 // In your widget build method
 
                 if (text.isEmpty) customButtonWidgets(
@@ -177,7 +177,7 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
                     entryCondition = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StrategyBuilderScreen()));
+                            builder: (context) => StrategyBuilderScreen())) ?? [];
                     setState(() {
                       text = strategyServices.getText(entryCondition);
                     });
@@ -208,15 +208,15 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
                     child: Text(text),
                   ),
                 )
-            ,
+                ,
 
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Container(
-                  height: 150,
-                       width: 400,
-                       decoration: BoxDecoration(
-                        color: Colors.white,
+                    height: 150,
+                    width: 400,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
                       borderRadius: BorderRadius.circular(3),
                     ),
                     child: const Padding(
@@ -238,7 +238,7 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
                                   child: TextField(
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
-                                      border: OutlineInputBorder()
+                                        border: OutlineInputBorder()
                                     ),
                                   ),
                                 )
@@ -277,51 +277,55 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
                       Consumer(builder: (BuildContext context, WidgetRef ref,
                           Widget? child) {
                         return Expanded(
-                          child: customButtonWidgets(title: 'deploy',
+                          child: customButtonWidgets(title: 'Save Changes',
                               loading: deploysetloading,
-                              callback: () async {
-                                setState(() {
-                                  deploysetloading = true;
-                                });
+                              callback: () async
+                              {
+                                //   setState(() {
+                                //     deploysetloading = true;
+                                //   });
+                                //
+                                //   // callstrtegies creation function from strataservices  return true and false
+                                //   final provider = ref.watch(Practice_Provider.notifier);
+                                //
+                                //   provider.clearComponents();
+                                //   bool  success = await strategyServices.callStrategiesfunction("deploy" , entryCondition).timeout(const Duration(seconds: 10) , onTimeout: ()=> false) ?? false;
+                                //   if (success) {
+                                //     setState(() {
+                                //       deploysetloading = false;
+                                //     });
+                                //     CustomSnackbar.show(
+                                //         context, "successfully created ",
+                                //         Colors.green);
+                                //   }
+                                //   else {
+                                //     CustomSnackbar.show(
+                                //         context, "Error during create strategy",
+                                //         Colors.red);
+                                //   }
+                                //
+                                //   final prov = ref.read(
+                                //       StrategiesProvider.notifier);
+                                //   await prov.getStategies();
+                                //
+                                //   Navigator.pushAndRemoveUntil(context,
+                                //       MaterialPageRoute(builder: (
+                                //           context) => Defaultpage()), (
+                                //           Route<dynamic>routes) => false);
+                                // }),
+                              }
+                              )
 
-                                // callstrtegies creation function from strataservices  return true and false
-                                final provider = ref.watch(Practice_Provider.notifier);
-
-                                provider.clearComponents();
-                                bool  success = await strategyServices.callStrategiesfunction(widget.pairName!, "deploy" , entryCondition).timeout(const Duration(seconds: 10) , onTimeout: ()=> false) ?? false;
-                                if (success) {
-                                  setState(() {
-                                    deploysetloading = false;
-                                  });
-                                  CustomSnackbar.show(
-                                      context, "successfully created ",
-                                      Colors.green);
-                                }
-                                else {
-                                  CustomSnackbar.show(
-                                      context, "Error during create strategy",
-                                      Colors.red);
-                                }
-
-                                final prov = ref.read(
-                                    StrategiesProvider.notifier);
-                                await prov.getStategies();
-
-                                Navigator.pushAndRemoveUntil(context,
-                                    MaterialPageRoute(builder: (
-                                        context) => Defaultpage()), (
-                                        Route<dynamic>routes) => false);
-                              }),
                         );
                       },),
 
                       Expanded(
                         child: customButtonWidgets(
-                          loading: Backtestsetloading,
+                            loading: Backtestsetloading,
                             title: 'backTest',
                             callback: ()async {
 
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>BackTestResultPage()));
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BackTestResultPage()));
                             }),
                       )
                     ],
