@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PairListNotifier extends ChangeNotifier {
-  List<dynamic> _pairList = [];
-  Map<dynamic, bool> _isSelected = {};
+  List<String> _pairList = [];
+  Map<String, bool> _isSelected = {};
 
-  List<dynamic> get pairList => _pairList;
+  List<String> get pairList => _pairList;
   bool isSelected(dynamic pair) => _isSelected[pair] ?? false;
 
   void addPair(dynamic pair) {
@@ -17,5 +17,10 @@ class PairListNotifier extends ChangeNotifier {
     _pairList.remove(pair);
     _isSelected[pair] = false;
     notifyListeners();
+  }
+
+  void restPair(){
+    _pairList.clear();
+    _isSelected.clear();
   }
 }

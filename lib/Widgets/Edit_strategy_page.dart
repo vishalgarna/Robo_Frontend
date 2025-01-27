@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:practice/Utils/StradegyCreatetion_Utilities.dart';
 import 'package:practice/Widgets/customWidgets.dart';
+import 'package:practice/models/strategiesHelpermodel/orderDetailsmodel.dart';
 import 'package:practice/models/strategymodel/strategies_model.dart';
-import 'package:practice/views/DefaultPage.dart';
-import 'package:practice/views/backtesTingResultsView.dart';
 import '../copyFIle.dart';
 import '../providers/Providers.dart';
+import '../views/backtesTingResultsView.dart';
 
 
 class Edit_Strategy extends StatefulWidget {
@@ -26,7 +26,7 @@ class _Edit_StrategyState extends State<Edit_Strategy> {
   bool Backtestsetloading = false;
   String text = ' ';
 
-  late List<Map<dynamic , dynamic>> entryCondition ;
+  List<Map<dynamic , dynamic>> ? entryCondition ;
 
   @override
   void initState() {
@@ -190,7 +190,7 @@ class _Edit_StrategyState extends State<Edit_Strategy> {
                       entryCondition = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => StrategyBuilderScreen()));
+                              builder: (context) => StrategyBuilderScreen()))  ?? [];
                       setState(() {
                         text = strategyServices.getText(entryCondition);
                       });
@@ -280,39 +280,57 @@ class _Edit_StrategyState extends State<Edit_Strategy> {
                           child: customButtonWidgets(title: 'Save Changes',
                               loading: deploysetloading,
                               callback: () async
-                              {
-                                //   setState(() {
-                                //     deploysetloading = true;
-                                //   });
-                                //
-                                //   // callstrtegies creation function from strataservices  return true and false
-                                //   final provider = ref.watch(Practice_Provider.notifier);
-                                //
-                                //   provider.clearComponents();
-                                //   bool  success = await strategyServices.callStrategiesfunction("deploy" , entryCondition).timeout(const Duration(seconds: 10) , onTimeout: ()=> false) ?? false;
-                                //   if (success) {
-                                //     setState(() {
-                                //       deploysetloading = false;
-                                //     });
-                                //     CustomSnackbar.show(
-                                //         context, "successfully created ",
-                                //         Colors.green);
-                                //   }
-                                //   else {
-                                //     CustomSnackbar.show(
-                                //         context, "Error during create strategy",
-                                //         Colors.red);
-                                //   }
-                                //
-                                //   final prov = ref.read(
-                                //       StrategiesProvider.notifier);
-                                //   await prov.getStategies();
-                                //
-                                //   Navigator.pushAndRemoveUntil(context,
-                                //       MaterialPageRoute(builder: (
-                                //           context) => Defaultpage()), (
-                                //           Route<dynamic>routes) => false);
-                                // }),
+                              {// callstrtegies creation function from strataservices  return true and false
+
+                               setState(() {
+                                 deploysetloading = true;
+                               });
+                                // yaaha me humne new strategymodel banay hai aur new selcteste thisgs ko store karek strategy ko updaea kar ra hai
+                                final orderDetailsModel = OrderDetailsModel(
+                                    type: strategyServices.EntryselectedAction,
+                                    symbol: widget.model.orderDetails!.symbol,
+                                    volume: widget.model.orderDetails?.volume,
+                                    stopLoss: widget.model.orderDetails
+                                        ?.stopLoss,
+                                    takeProfit: widget.model.orderDetails
+                                        ?.takeProfit);
+
+
+                                final model = StrategiesModel(
+                                    userId: '674f044539c250120a20854e',
+                                    strategyName: 'updateStrategy',
+                                    timeframe: strategyServices
+                                        .selectedTimeframe ?? "4h",
+                                    description: 'Update this strategy',
+                                    deployed: true,
+                                    entryRuleModel: entryCondition ?? widget.model.entryRuleModel,
+                                    orderDetails: orderDetailsModel);
+
+                                // after udating fiels ke baad humne reset kar diya varibles ko
+                                strategyServices.resetStrings();
+                                final practiceProvider = ref.read(Practice_Provider.notifier);
+                                final strategyProvider = ref.read(StrategiesProvider.notifier);
+                                practiceProvider.clearComponents();
+
+                                bool success = await strategyServices.services.updateStrategies(model, widget.model.id!).timeout(
+                                    const Duration(seconds: 10),
+                                    onTimeout: () => false);
+                                strategyProvider.getStategies();
+                               setState(() {
+                                 deploysetloading = false;
+                               });
+                                if (success) {
+                                  CustomSnackbar.show(
+                                      context, "successfully updated ",
+                                      Colors.green);
+                                }
+                                else {
+                                  CustomSnackbar.show(
+                                      context, "Error during update strategy",
+                                      Colors.red);
+                                }
+
+                                Navigator.pop(context);
                               }
                               )
 
@@ -325,7 +343,10 @@ class _Edit_StrategyState extends State<Edit_Strategy> {
                             title: 'backTest',
                             callback: ()async {
 
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>BackTestResultPage()));
+                              strategyServices.EntryselectedAction = widget.model.orderDetails!.type;
+                               Navigator.push(context, MaterialPageRoute(builder: (context)=>BackTestResultPage(entryCondition: widget.model.entryRuleModel,
+                                 pairList: widget.model.orderDetails!.symbol!)));
+
                             }),
                       )
                     ],

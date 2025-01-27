@@ -10,7 +10,8 @@ _$OrderDetailsModelImpl _$$OrderDetailsModelImplFromJson(
         Map<String, dynamic> json) =>
     _$OrderDetailsModelImpl(
       type: json['type'] as String?,
-      symbol: json['symbol'] as String?,
+      symbol:
+          (json['symbol'] as List<dynamic>?)?.map((e) => e as String).toList(),
       volume: (json['volume'] as num?)?.toInt(),
       stopLoss: (json['stopLoss'] as num?)?.toInt(),
       takeProfit: (json['takeProfit'] as num?)?.toInt(),

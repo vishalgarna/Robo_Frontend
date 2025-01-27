@@ -1,25 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:practice/views/DefaultPage.dart';
-import 'package:practice/views/backtesTingResultsView.dart';
-import 'package:practice/views/importantFunction_Page.dart';
 import 'package:practice/views/searchPairpage.dart';
 import 'package:practice/views/strategyCreationPage.dart';
-
-import 'Widgets/allStrategyWidgets.dart';
-import 'copyFIle.dart';
-import 'lala.dart';
-import 'views/strategypage.dart';
+import 'package:practice/views/strategypage.dart';
 
 void main() {
   runApp(
     const ProviderScope(child : MyApp() ),
      );
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
 
   // This widget is the root of your application.
   @override
@@ -77,7 +69,7 @@ color: Colors.black
 
       ),
 
-     home: SearchPairPage(strategyName: "strategyName")
+     home: Defaultpage()
     );
   }
 }

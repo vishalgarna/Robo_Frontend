@@ -35,10 +35,6 @@ class StrategiesNotifier extends StateNotifier<StrategiesState>{
    }
    return false;
   }
-
-  // update
-
-
   Future<bool> updateStrategies(StrategiesModel model , String Strategy_id)async {
 
     state = state.copyWith(isLoading: true);
@@ -120,25 +116,25 @@ return ;
 
 class Indicator {
   final String name;
-  final Map<String, double> defaultParameters;
+  final Map<String, dynamic> defaultParameters;
 
   Indicator({required this.name, required this.defaultParameters});
 }
 
 class IndicatorWidget extends StatefulWidget {
   final Indicator indicator;
-  final Map<String, double> initialParameters;
+  final Map<String, dynamic> initialParameters;
 
   IndicatorWidget({required this.indicator, required this.initialParameters}) : super(key: UniqueKey());
 
   @override
   _IndicatorWidgetState createState() => _IndicatorWidgetState();
 
-  Map<String, double> get parameters => initialParameters;
+  Map<String, dynamic> get parameters => initialParameters;
 }
 
 class _IndicatorWidgetState extends State<IndicatorWidget> {
-  late Map<String, double> parameters;
+  late Map<String, dynamic> parameters;
 
   @override
   void initState() {

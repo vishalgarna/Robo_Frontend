@@ -19,3 +19,4 @@ final Practice_Provider = ChangeNotifierProvider((ref)=>TryStrategies());
 
 
 final pairListProvider = ChangeNotifierProvider<PairListNotifier>((ref) => PairListNotifier());
+

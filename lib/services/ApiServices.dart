@@ -45,7 +45,7 @@ class ApiServices  {
     try {
       var response = await http
           .put(
-        Uri.parse("http://13.203.50.253:2003/api/create-strategy"),
+        Uri.parse("http://13.203.50.253:2003/api/update-strategy"),
         headers: {'Content-Type': 'application/json'},
         body: jsonEncode({
           "strategyName": model.strategyName,
@@ -173,35 +173,39 @@ Future<bool>deleteStrategy(id) async {
     }
   }
 
-}
+  Future<BackTestingModel ?> BacktestResults(StrategiesModel model) async {
+    try {
+      var response = await http
+          .post(
+        Uri.parse("http://13.203.50.253:5800/backtest"),
+        headers: {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          "strategyName": model.strategyName,
+          "timeframe": model.timeframe,
+          "description": model.description,
+          "deployed": model.deployed,
+          "entryRuleModel": model.entryRuleModel,
+          "orderDetails": model.orderDetails,
+        }),
+      )
+          .timeout(const Duration(seconds: 30));
 
-
-
-Future<bool ?> BacktestResults(StrategiesModel model) async {
-  try {
-    var response = await http
-        .post(
-      Uri.parse("http://13.203.50.253:2003/api/create-strategy"),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
-        "strategyName": model.strategyName,
-        "timeframe": model.timeframe,
-        "description": model.description,
-        "deployed": model.deployed,
-        "entryRuleModel": model.entryRuleModel,
-        "orderDetails": model.orderDetails,
-      }),
-    )
-        .timeout(const Duration(seconds: 10));
-
-    if (response.statusCode == 200) {
-      return true;
-    } else {
-      print('Failed to create strategy. Status code: ${response.statusCode}');
-      return false;
+      if (response.statusCode == 200) {
+        var data = jsonDecode(response.body);
+        print(data);
+        BackTestingModel result = BackTestingModel.fromJson(data["data"]);
+        return result;
+      } else {
+        print('Failed to create strategy. Status code: ${response.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      print('Error: ${e.toString()}');
+      return null;
     }
-  } catch (e) {
-    print('Error: ${e.toString()}');
-    return false;
   }
+
 }
+
+
+

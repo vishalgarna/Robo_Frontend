@@ -87,16 +87,16 @@ mixin strategyServices {
 
   }
 
-  static Future<dynamic> callStrategiesfunction(String symbol , functionName , entryCondition)async{
+  static Future<dynamic> callStrategiesfunction(List<String> pairsList , functionName , entryCondition)async{
 
-    final  orderdetailsmodel =  OrderDetailsModel(type: "BUY", symbol:symbol , volume: 2, stopLoss: 2, takeProfit: 2);
+    final  orderdetailsmodel =  OrderDetailsModel(type: strategyServices.EntryselectedAction ?? " ", symbol: pairsList , volume: 2, stopLoss: 2, takeProfit: 2);
 
 
     final model = StrategiesModel
       (
       userId: "674f044539c250120a20854e",
       strategyName: "new Strategy",
-      timeframe: selectedTimeframe ?? '',
+      timeframe: selectedTimeframe ?? '4h',
       description: "This iS testing",
       deployed: true,
       entryRuleModel: entryCondition,
@@ -108,11 +108,11 @@ mixin strategyServices {
 
     if(functionName == "backTest"){
 
-      // var response = await services.backTestResult(data).timeout(
-      //   const Duration(seconds:10 ),
-      //   onTimeout: () => null,
-      // );
-      // return response ;
+      var response = await services.BacktestResults(model).timeout(
+        const Duration(seconds:10 ),
+        onTimeout: () => null,
+      );
+      return response ;
     }
 
     return await services.createStrategy(model).timeout(const Duration(seconds: 10), onTimeout: ()=> false);
@@ -151,15 +151,15 @@ mixin strategyServices {
     //   }
     // ];
 
-    String text = '';
+  late  String  text = " " ;
     entryRuleModel.forEach((entry) {
       entry.forEach((key, value) {
         if (key == "name" && entry["type"] == "indicator") {
-          text += value.toString();
+          text += value.toString() ;
         } else if (key == "parameters") {
           text += getParameters(value);
         } else if (key == "name") {
-          text += ' ' + value.toString() + ' ';
+          text += ' $value ';
         }
       });
     });

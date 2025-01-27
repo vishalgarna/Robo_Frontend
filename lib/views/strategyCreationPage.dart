@@ -25,7 +25,7 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
   bool deploysetloading = false;
   bool Backtestsetloading = false;
   String text = ' ';
- late List<Map<dynamic , dynamic>> entryCondition ;
+  List<Map<dynamic , dynamic>> ? entryCondition ;
  @override
  void initState() {
    super.initState();
@@ -35,10 +35,10 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
 
  @override
   Widget build(BuildContext context) {
-   print("zxdfs"+text);
     return Scaffold(
 
       appBar: AppBar(
+
         actions: [Padding(
           padding: const EdgeInsets.all( 8.0),
           child: TextButton(onPressed: () {
@@ -49,7 +49,7 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
           }, child: const Text('cancel', style: TextStyle(fontSize: 19),)),
         )
         ],
-        title: Text(widget.pairName!, style: const TextStyle(fontSize: 17),),
+        title: const Text("Strategy Builder"),
 
       ),
       body: Padding(
@@ -170,16 +170,17 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
             // Your button condition check
                 // In your widget build method
 
-                if (text.isEmpty) customButtonWidgets(
+                if (text.trim().isEmpty)  customButtonWidgets(
                   width: 350,
                   title: 'Entry Condition',
                   callback: () async {
                     entryCondition = await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => StrategyBuilderScreen()));
+                            builder: (context) => StrategyBuilderScreen())) ?? [];
                     setState(() {
                       text = strategyServices.getText(entryCondition);
+
                     });
                   },
                   colors: Colors.grey.shade400,
@@ -190,7 +191,7 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
                       entryCondition = await Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => StrategyBuilderScreen()));
+                              builder: (context) => StrategyBuilderScreen())) ?? [];
                       setState(() {
                         text = strategyServices.getText(entryCondition);
                       });
@@ -283,12 +284,18 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
                                 setState(() {
                                   deploysetloading = true;
                                 });
-
                                 // callstrtegies creation function from strataservices  return true and false
+
+                                // ye prative practice provider strategybuilder ke liye hai ki user kya componene me use me liye hasi
                                 final provider = ref.watch(Practice_Provider.notifier);
 
+                                // ya wala  pairslist ka ki user nwe kon konsi pair selcet kare strategies bna rahah hai
+                                final pairListProv = ref.watch(pairListProvider);
+                                // uske user ki select karu haui ko hum tempry varibal me store karva tra hahai uske baad clear kar raha paiar lsit ko
+                                // isme components ko clear kar raha hai
                                 provider.clearComponents();
-                                bool  success = await strategyServices.callStrategiesfunction(widget.pairName!, "deploy" , entryCondition).timeout(const Duration(seconds: 10) , onTimeout: ()=> false) ?? false;
+                                bool  success = await strategyServices.callStrategiesfunction(pairListProv.pairList, "deploy" , entryCondition).timeout(const Duration(seconds: 10) , onTimeout: ()=> false) ?? false;
+                                pairListProv.restPair();
                                 if (success) {
                                   setState(() {
                                     deploysetloading = false;
@@ -315,15 +322,19 @@ class _StrategyCreationPageState extends State<StrategyCreationPage> {
                         );
                       },),
 
-                      Expanded(
-                        child: customButtonWidgets(
-                          loading: Backtestsetloading,
-                            title: 'backTest',
-                            callback: ()async {
 
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>BackTestResultPage()));
-                            }),
-                      )
+                      Consumer(builder: (context , ref , child){
+                        return  Expanded(
+                          child: customButtonWidgets(
+                              loading: Backtestsetloading,
+                              title: 'backTest',
+                              callback: ()async {
+                                final pairListProv = ref.watch(pairListProvider);
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>BackTestResultPage(pairList:pairListProv.pairList , entryCondition: entryCondition,)));
+                              }),
+                        );
+                      }),
+
                     ],
                   ),
                 )

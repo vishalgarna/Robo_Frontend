@@ -21,7 +21,7 @@ OrderDetailsModel _$OrderDetailsModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$OrderDetailsModel {
   String? get type => throw _privateConstructorUsedError;
-  String? get symbol => throw _privateConstructorUsedError;
+  List<String>? get symbol => throw _privateConstructorUsedError;
   int? get volume => throw _privateConstructorUsedError;
   int? get stopLoss => throw _privateConstructorUsedError;
   int? get takeProfit => throw _privateConstructorUsedError;
@@ -44,7 +44,7 @@ abstract class $OrderDetailsModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? type,
-      String? symbol,
+      List<String>? symbol,
       int? volume,
       int? stopLoss,
       int? takeProfit});
@@ -79,7 +79,7 @@ class _$OrderDetailsModelCopyWithImpl<$Res, $Val extends OrderDetailsModel>
       symbol: freezed == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>?,
       volume: freezed == volume
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
@@ -106,7 +106,7 @@ abstract class _$$OrderDetailsModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? type,
-      String? symbol,
+      List<String>? symbol,
       int? volume,
       int? stopLoss,
       int? takeProfit});
@@ -137,9 +137,9 @@ class __$$OrderDetailsModelImplCopyWithImpl<$Res>
           : type // ignore: cast_nullable_to_non_nullable
               as String?,
       symbol: freezed == symbol
-          ? _value.symbol
+          ? _value._symbol
           : symbol // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>?,
       volume: freezed == volume
           ? _value.volume
           : volume // ignore: cast_nullable_to_non_nullable
@@ -161,18 +161,27 @@ class __$$OrderDetailsModelImplCopyWithImpl<$Res>
 class _$OrderDetailsModelImpl implements _OrderDetailsModel {
   _$OrderDetailsModelImpl(
       {required this.type,
-      required this.symbol,
+      required final List<String>? symbol,
       required this.volume,
       required this.stopLoss,
-      required this.takeProfit});
+      required this.takeProfit})
+      : _symbol = symbol;
 
   factory _$OrderDetailsModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$OrderDetailsModelImplFromJson(json);
 
   @override
   final String? type;
+  final List<String>? _symbol;
   @override
-  final String? symbol;
+  List<String>? get symbol {
+    final value = _symbol;
+    if (value == null) return null;
+    if (_symbol is EqualUnmodifiableListView) return _symbol;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final int? volume;
   @override
@@ -191,7 +200,7 @@ class _$OrderDetailsModelImpl implements _OrderDetailsModel {
         (other.runtimeType == runtimeType &&
             other is _$OrderDetailsModelImpl &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            const DeepCollectionEquality().equals(other._symbol, _symbol) &&
             (identical(other.volume, volume) || other.volume == volume) &&
             (identical(other.stopLoss, stopLoss) ||
                 other.stopLoss == stopLoss) &&
@@ -201,8 +210,13 @@ class _$OrderDetailsModelImpl implements _OrderDetailsModel {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, type, symbol, volume, stopLoss, takeProfit);
+  int get hashCode => Object.hash(
+      runtimeType,
+      type,
+      const DeepCollectionEquality().hash(_symbol),
+      volume,
+      stopLoss,
+      takeProfit);
 
   /// Create a copy of OrderDetailsModel
   /// with the given fields replaced by the non-null parameter values.
@@ -224,7 +238,7 @@ class _$OrderDetailsModelImpl implements _OrderDetailsModel {
 abstract class _OrderDetailsModel implements OrderDetailsModel {
   factory _OrderDetailsModel(
       {required final String? type,
-      required final String? symbol,
+      required final List<String>? symbol,
       required final int? volume,
       required final int? stopLoss,
       required final int? takeProfit}) = _$OrderDetailsModelImpl;
@@ -235,7 +249,7 @@ abstract class _OrderDetailsModel implements OrderDetailsModel {
   @override
   String? get type;
   @override
-  String? get symbol;
+  List<String>? get symbol;
   @override
   int? get volume;
   @override

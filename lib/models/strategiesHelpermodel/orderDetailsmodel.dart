@@ -7,7 +7,7 @@ part 'orderDetailsmodel.g.dart';
 class OrderDetailsModel with _$OrderDetailsModel {
   factory OrderDetailsModel({
     required String? type,
-    required String? symbol,
+    required List<String>? symbol,
     required int? volume,
     required int? stopLoss,
     required int ? takeProfit,

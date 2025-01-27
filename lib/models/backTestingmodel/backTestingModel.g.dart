@@ -9,17 +9,35 @@ part of 'backTestingModel.dart';
 _$BackTestingModelImpl _$$BackTestingModelImplFromJson(
         Map<String, dynamic> json) =>
     _$BackTestingModelImpl(
-      profitOrLoss: (json['profitOrLoss'] as num).toDouble(),
-      orderCount: (json['orderCount'] as num).toInt(),
-      trades: (json['trades'] as List<dynamic>)
-          .map((e) => TradeModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      afterTrade: (json['afterTrade'] as num).toInt(),
+      investedAmount: (json['investedAmount'] as num).toInt(),
+      resultBacktesPairs:
+          (json['resultBacktesPairs'] as Map<String, dynamic>?)?.map(
+        (k, e) => MapEntry(k,
+            e == null ? null : TradeData.fromJson(e as Map<String, dynamic>)),
+      ),
     );
 
 Map<String, dynamic> _$$BackTestingModelImplToJson(
         _$BackTestingModelImpl instance) =>
     <String, dynamic>{
-      'profitOrLoss': instance.profitOrLoss,
-      'orderCount': instance.orderCount,
-      'trades': instance.trades,
+      'afterTrade': instance.afterTrade,
+      'investedAmount': instance.investedAmount,
+      'resultBacktesPairs': instance.resultBacktesPairs,
+    };
+
+_$TradeDataImpl _$$TradeDataImplFromJson(Map<String, dynamic> json) =>
+    _$TradeDataImpl(
+      afterTrade: (json['afterTrade'] as num).toInt(),
+      slHit: (json['slHit'] as num).toInt(),
+      tpHit: (json['tpHit'] as num).toInt(),
+      totalTrades: (json['totalTrades'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$$TradeDataImplToJson(_$TradeDataImpl instance) =>
+    <String, dynamic>{
+      'afterTrade': instance.afterTrade,
+      'slHit': instance.slHit,
+      'tpHit': instance.tpHit,
+      'totalTrades': instance.totalTrades,
     };

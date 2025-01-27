@@ -23,6 +23,12 @@ class _SearchPairPageState extends ConsumerState<SearchPairPage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    strategyServices.searchControllers.clear();
+  }
+  @override
   Widget build(BuildContext context) {
     final provider = ref.watch(pairListProvider);
     return Scaffold(
@@ -30,6 +36,7 @@ class _SearchPairPageState extends ConsumerState<SearchPairPage> {
         title: const Text("symbols"),
         actions: [
           TextButton(onPressed: (){
+
             Navigator.push(context, MaterialPageRoute(builder: (context)=>StrategyCreationPage(pairName: pairNames()?? "pairNames", strategyName: "strategyName")));
           }, child: const Padding(
             padding: EdgeInsets.only(right: 30.0),
@@ -105,7 +112,7 @@ class _SearchPairPageState extends ConsumerState<SearchPairPage> {
   }
   String ? pairNames (){
     final provider = ref.read(pairListProvider.notifier);
-    String pairs  = "";
+    String ? pairs ;
      pairs = provider.pairList.join(",");
      return pairs;
 

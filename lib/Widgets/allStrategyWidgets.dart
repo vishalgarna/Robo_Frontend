@@ -7,6 +7,7 @@ import 'package:practice/models/strategymodel/strategies_model.dart';
 import 'package:practice/providers/Providers.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:practice/services/ApiServices.dart';
+import '../models/strategiesHelpermodel/orderDetailsmodel.dart';
 import '../views/searchPairpage.dart';
 import 'customWidgets.dart';
 
@@ -82,6 +83,9 @@ class AllStrategyWidget extends ConsumerWidget {
                 //     );
                 //   },
                 // );
+                final pairListProv = ref.read(pairListProvider.notifier);
+                strategyServices.resetStrings();
+                pairListProv.restPair();
 
                 Navigator.push(
                   context,
@@ -108,6 +112,7 @@ class AllStrategyWidget extends ConsumerWidget {
   Widget _buildListState(WidgetRef ref, BuildContext context) {
     final strategiesState = ref.watch(StrategiesProvider);
 
+
     if (strategiesState.isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
@@ -120,8 +125,9 @@ class AllStrategyWidget extends ConsumerWidget {
   }
 
   Widget _uiOfStrategiesList(List<StrategiesModel> model, WidgetRef ref, BuildContext context) {
-    final prov  = ref.read(StrategiesProvider.notifier);
 
+    final prov  = ref.read(StrategiesProvider.notifier);
+    final strategiesState = ref.watch(StrategiesProvider);
     return ListView.builder(
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
@@ -130,7 +136,7 @@ class AllStrategyWidget extends ConsumerWidget {
         return Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
           child: Card(
-            color: Colors.white,
+            color: Colors.grey.shade50,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,16 +147,15 @@ class AllStrategyWidget extends ConsumerWidget {
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            model[index].orderDetails!.symbol!,
+                            model[index].strategyName!,
                             style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                           ),
                         ),
-                        SizedBox(width: 100,),
+                        const SizedBox(width: 85,),
                         IconButton(onPressed: (){
                           addingComponent(ref, model[index].entryRuleModel!);
                           Navigator.push(context, MaterialPageRoute(builder: (context)=>Edit_Strategy(model: model[index])));
-
-                        }, icon: Icon(Icons.edit , size: 19,)),
+                        }, icon: const Icon(Icons.edit , size: 19,)),
                         IconButton(onPressed: (){
 
                         //   duplicate function
@@ -169,7 +174,7 @@ class AllStrategyWidget extends ConsumerWidget {
                          
                           prov.addStrategies(newModel);
 
-                        }, icon: Icon(Icons.copy , size: 19,)),
+                        }, icon: const Icon(Icons.copy , size: 19,)),
                         IconButton(
                           onPressed: () {
                             prov.removeStrategies(context, model[index].id);
@@ -178,19 +183,67 @@ class AllStrategyWidget extends ConsumerWidget {
                         ),
                       ],
                     )),
-                Padding(
-                  padding: const EdgeInsets.only(left: 8.0 , bottom: 6),
-                  child: SizedBox(
-                    child: ExpandableText(
-                      '${model[index].orderDetails!.type} When ${strategyServices.getText(model[index].entryRuleModel)}',
-                      style: const TextStyle(fontSize: 12),
-                      expandText: 'more',
-                      collapseText: 'less',
-                      maxLines: 2,
-                      linkColor: Colors.blue,
+
+                ListTile(
+                  title:ExpandableText(
+                    '${model[index].orderDetails!.type} When ${strategyServices.getText(model[index].entryRuleModel)} of ${model[index].orderDetails!.symbol}',
+                    style: const TextStyle(fontSize: 12),
+                    expandText: 'more',
+                    collapseText: 'less',
+                    maxLines: 2,
+                    linkColor: Colors.blue,
+                  ),
+
+                  trailing: SizedBox(
+                    height: 40,
+                    width: 50,
+                    child: Transform.scale(
+                      scale: 0.7,
+                      child:strategiesState.isLoading ? const CircularProgressIndicator() : Switch(
+                          value: model[index].deployed!, onChanged:  (newvalue)async{
+
+                          // yaaha me humne new strategymodel banay hai aur new selcteste thisgs ko store karek strategy ko updaea kar ra hai
+                          var orderDetailsModel = OrderDetailsModel(
+                              type: model[index].orderDetails!.type,
+                              symbol: model[index].orderDetails!.symbol,
+                              volume: model[index].orderDetails!.volume,
+                              stopLoss: model[index].orderDetails!.stopLoss,
+                              takeProfit: model[index].orderDetails!.takeProfit);
+
+
+                          final newmodel = StrategiesModel(
+                              userId: '674f044539c250120a20854e',
+                              deployed: newvalue,
+                              orderDetails: orderDetailsModel,
+                              timeframe: model[index].timeframe,
+                              strategyName: model[index].strategyName,
+                              description: '',
+                              entryRuleModel: model[index].entryRuleModel);
+                          final practiceProvider = ref.read(Practice_Provider.notifier);
+                          final strategyProvider = ref.watch(StrategiesProvider.notifier);
+                          practiceProvider.clearComponents();
+                         await strategyProvider.updateStrategies(newmodel, model[index].id!).timeout(
+                              const Duration(seconds: 10),
+                              onTimeout: () => false);
+                          strategyProvider.getStategies();
+
+                          // if (newvalue) {
+                          //   CustomSnackbar.show(
+                          //       context, "deployed true",
+                          //       Colors.green);
+                          // }
+                          // else {
+                          //   CustomSnackbar.show(
+                          //       context, "deployed false",
+                          //       Colors.red);
+                          // }
+
+                        }
+                        ),
                     ),
                   ),
                 ),
+
               ],
             ),
           ),
@@ -198,23 +251,24 @@ class AllStrategyWidget extends ConsumerWidget {
       },
     );
   }
-  
-  void addingComponent(WidgetRef ref , List entryRuleModel){
-    
-    final prov  = ref.read(Practice_Provider.notifier);
-    entryRuleModel.forEach((object){
-        if(object["type"] == "indicator"){
-          Indicator indicator = Indicator(name: object["name"], defaultParameters: Map.from(object["parameters"]));
-          prov.addComponents(IndicatorWidget(indicator: indicator, initialParameters: Map.from(object["parameters"])));
-        }
-        else if (object["type"] == "condition"){
-          prov.addComponents(ConditionWidget(type: object["name"]));
-        }
-
-        else if (object["type"] == "logicalOperator"){
-          prov.addComponents(LogicalOperatorWidget(type: object["name"]));
-        }
+  void addingComponent(WidgetRef ref, List entryRuleModel) {
+    final prov = ref.read(Practice_Provider.notifier);
+    entryRuleModel.forEach((object) {
+      if (object["type"] == "indicator") {
+        Indicator indicator = Indicator(
+          name: object["name"],
+          defaultParameters: Map.from(object["parameters"]),
+        );
+        prov.addComponents(IndicatorWidget(
+          indicator: indicator,
+          initialParameters: Map.from(object["parameters"]),
+        ));
+      } else if (object["type"] == "condition") {
+        prov.addComponents(ConditionWidget(type: object["name"]));
+      } else if (object["type"] == "logicalOperator") {
+        prov.addComponents(LogicalOperatorWidget(type: object["name"]));
+      }
     });
-    
   }
+
 }

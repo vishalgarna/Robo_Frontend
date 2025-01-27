@@ -14,10 +14,11 @@ class _StrategyBuilderScreenState extends ConsumerState<StrategyBuilderScreen> {
   final Logger _logger = Logger('StrategyBuilderLogger');
 
   List<Indicator> availableIndicators = [
+    Indicator(name: 'close', defaultParameters: {'close': 50}),
+    Indicator(name: 'william_fractal', defaultParameters: {'period': 9}),
     Indicator(name: 'MACD', defaultParameters: {'fast period': 12, 'slow period': 26, 'signal period': 9}),
     Indicator(name: 'RSI', defaultParameters: {'time period': 14}),
     Indicator(name: 'SMA', defaultParameters: {'time period': 50}),
-    Indicator(name: 'close', defaultParameters: {'close': 50}),
     Indicator(name: 'Bollinger Bands', defaultParameters: {'time period': 20, 'standard deviation': 2}),
   ];
   List<String> availableConditions = ['isGreaterThan', 'isLessThan', 'isEqual', 'IsNotEqual'];
@@ -95,7 +96,7 @@ class _StrategyBuilderScreenState extends ConsumerState<StrategyBuilderScreen> {
   void _saveStrategy(BuildContext context) {
     _logger.info('Saving Strategy:');
     final provider = ref.watch(Practice_Provider);
-    var components = provider.getComponents();
+    var  components = provider.getComponents();
     _logger.info('Components: $components');
     Navigator.pop(context, components);
   }
@@ -103,10 +104,9 @@ class _StrategyBuilderScreenState extends ConsumerState<StrategyBuilderScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = ref.watch(Practice_Provider);
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Strategy Builder'),
+        title: const Text('conditions'),
         automaticallyImplyLeading: false,
       ),
       body: Column(

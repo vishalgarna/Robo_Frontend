@@ -201,7 +201,7 @@ class _floatingActionButtonState extends State<floatingActionButton> {
             setState(() {
               isloadingforsell = true;
             });
-                final model =  OrderModel(action: "action", symbol: widget.symbol?? "", type: "SELL", volume: widget.selectedqty ?? 0.1);
+                final model =  OrderModel(action: "action", symbol: widget.symbol ?? " ", type: "SELL", volume: widget.selectedqty ?? 0.1);
             try{
              bool result  = await services.placeOrder(model).timeout(const Duration(seconds:10 ,), onTimeout: ()=> false);
 
