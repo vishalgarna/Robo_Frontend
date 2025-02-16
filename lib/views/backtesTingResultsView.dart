@@ -105,7 +105,8 @@ class BackTestResultPage extends StatelessWidget {
       return const Center(child: Text('No data available'));
     }
 
-    return SizedBox(
+    return SingleChildScrollView(
+     child : SizedBox(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -276,7 +277,7 @@ class BackTestResultPage extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 
 

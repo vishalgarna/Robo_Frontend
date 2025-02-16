@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:practice/views/DefaultPage.dart';
-import 'package:practice/views/searchPairpage.dart';
-import 'package:practice/views/strategyCreationPage.dart';
-import 'package:practice/views/strategypage.dart';
+import 'package:practice/views/allBrokers.dart';
 
 void main() {
   runApp(
@@ -69,7 +66,7 @@ color: Colors.black
 
       ),
 
-     home: Defaultpage()
+     home: AllBrokers()
     );
   }
 }

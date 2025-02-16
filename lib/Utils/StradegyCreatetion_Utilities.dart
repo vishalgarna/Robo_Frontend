@@ -30,8 +30,7 @@ mixin strategyServices {
 
   }
 
-
-   static TextEditingController qtyController = TextEditingController(text: "0.1");
+  static TextEditingController qtyController = TextEditingController(text: "0.1");
 
   static List<String> indicators = ["SMA" ,"RSI" , "MACD" , "ADX"  , "HMA"];
 
@@ -73,8 +72,18 @@ mixin strategyServices {
   ];
 
   static List<String>timeframes = ["1m" , "5m" , "15m" , "30m" , "1h" , "2h", "4h", "1d"];
-
+  static Map<String,List<String>> brokerCredentials = {"upstox" : ["appName" , "apiSecret" , "userid" , "apiKey"]};
   static Map<String , Map<String , TextEditingController>> controllersMap = {};
+  static Map<String , Map<String , TextEditingController>> brokerControllers = {};
+
+
+  static void setupBrokerControllers(String brokerName) {
+    brokerControllers[brokerName] = {};
+
+    for (String credential in brokerCredentials[brokerName]!) {
+      brokerControllers[brokerName]![credential] = TextEditingController();
+    }
+  }
 
   static void initializeControllers (indicator , seltectindicator){
     controllersMap[seltectindicator] = {};
@@ -174,13 +183,13 @@ mixin strategyServices {
 }
 
 class CustomSnackbar {
-
    static void show(BuildContext context , String message ,Color color) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
 
         behavior: SnackBarBehavior.floating,
         margin: const EdgeInsets.only(
+          bottom: 20,
           left: 10,
           right: 10,
         ),
